@@ -1,0 +1,170 @@
+@import "notifications";
+@import "mixins";
+
+.p20 {
+  padding: 20px;
+}
+
+.p20-horizontal-top {
+  padding: 20px 20px 0 20px;
+}
+
+.p5 {
+  padding: 5px;
+}
+
+.p10 {
+  padding: 10px;
+}
+
+.p10-horizontal {
+  padding: 0 10px;
+}
+
+.p5-horizontal {
+  padding: 0 10px;
+}
+
+.ml-20 {
+  margin-left: 20px
+}
+
+.nomargin {
+  margin: 0 !important
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.border-radius {
+  border-radius: 5px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-40 {
+  margin-top: 40px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transform: scale(0.8);
+}
+
+.text-small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.form-container {
+  &.min-vw-0 {
+    min-width: 0;
+  }
+
+  &.max-w {
+    max-width: 600px
+  }
+
+  .form-item {
+    margin-bottom: 20px;
+
+    &.with-col {
+      display: flex;
+      flex-direction: row;
+
+      .col-item {
+        flex: 1;
+        min-width: 0;
+        margin-right: 10px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &.flex-2 {
+          flex: 2;
+        }
+
+        &.flex-1 {
+          flex: 1;
+        }
+      }
+    }
+
+    &.flex-wrap {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 0;
+
+      .col-item {
+        @include grid(2, 2%);
+        margin-bottom: 20px;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .label {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .input-container {
+    }
+
+    .percent-input-wrapper {
+      position: relative;
+      display: inline-block;
+
+      &::after {
+        content: '%';
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        pointer-events: none;
+      }
+
+      .percent-input {
+        padding-right: 1.5em; /* место под % */
+        box-sizing: border-box;
+      }
+    }
+
+    input[readonly] {
+      background-color: rgb(233, 236, 239);
+      opacity: 1;
+      color: #636363;
+    }
+  }
+}
