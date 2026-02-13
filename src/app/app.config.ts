@@ -17,7 +17,7 @@ import localeKz from '@angular/common/locales/kk';
 import localeEn from '@angular/common/locales/en';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from '../environments/environment';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
@@ -29,6 +29,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
+    provideHttpClient(),
     importProvidersFrom(
       BrowserAnimationsModule,
       JwtModule.forRoot({
@@ -36,7 +37,6 @@ export const appConfig: ApplicationConfig = {
           tokenGetter: GetToken,
         },
       }),
-      HttpClientModule,
     ),
     provideTranslateService({
       fallbackLang: 'ru',

@@ -3,7 +3,7 @@ import { MatRipple } from '@angular/material/core';
 import { NgClass } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIcon } from "@angular/material/icon";
-import { NavigationLinkModel } from '../../../core/consts/links';
+import { NavigationLinkModel } from '../../../core/helpers/consts/links';
 
 @Component({
   selector: 'app-navigation-link-item',

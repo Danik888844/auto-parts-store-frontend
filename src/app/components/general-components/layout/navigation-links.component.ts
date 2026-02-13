@@ -6,7 +6,7 @@ import { navigationLinks } from '../../../core/helpers/consts/links';
 @Component({
   selector: 'app-navigation-links',
   template: `
-    @for (link of visibleLinks(); track $index) {
+    @for (link of navigationLinks; track $index) {
       <app-navigation-link-item
         [data]="link"
         [hasHighlight]="hasHighlight"
