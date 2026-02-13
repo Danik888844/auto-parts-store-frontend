@@ -1,5 +1,5 @@
 import {Injectable, inject} from '@angular/core';
-import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse} from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import {Observable, catchError, throwError} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from "../../../environments/environment";
