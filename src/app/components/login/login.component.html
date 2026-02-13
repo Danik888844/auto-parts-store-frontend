@@ -1,0 +1,38 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Вход</h2>
+    
+    <form [formGroup]="formGroup" class="form-container" (ngSubmit)="onSubmit()">
+      <div class="form-item">
+        <label class="label" for="email">Email</label>
+        <input
+          id="email"
+          formControlName="email"
+          required
+          placeholder="Введите email"
+          class="form-control"
+         />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Введите пароль"
+          required
+          class="form-control"
+       />
+      </div>
+
+      <button type="submit" [disabled]="formGroup.invalid || isLoading()" class="submit-btn">
+        <span>Войти</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

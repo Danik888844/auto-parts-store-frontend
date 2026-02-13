@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+  <p>{{ content }}</p>
+</mat-dialog-content>
+<mat-dialog-actions [ngClass]="{
+  'justify-content-between': !hideCancel,
+  'justify-content-end': hideCancel
+}">
+@if(!hideCancel) {
+  <button mat-button (click)="cancel()">{{ "Отмена" }}</button>
+}
+  <button
+    mat-button
+    (click)="clickHandle()"
+  >
+    {{ btnText }}
+  </button>
+</mat-dialog-actions>
