@@ -4,7 +4,7 @@ import { TokenDto } from "../models/users/token-dto";
 import { HttpClient } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { SingleResponeModel } from "../models/general/single-response.model";
-import { Observable, windowTime } from "rxjs";
+import { Observable } from "rxjs";
 import { ResponseModel } from "../models/general/response.model";
 
 @Injectable({

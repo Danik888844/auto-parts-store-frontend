@@ -3,6 +3,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "esModuleInterop": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -12,7 +13,7 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "target": "ES2022",
     "module": "preserve"
   },
