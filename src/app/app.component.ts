@@ -8,12 +8,10 @@ import {
 import { UiLanguageService } from './core/services/ui-language.service';
 import { filter, map, mergeMap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { NotificationsComponent } from './components/notifications/notifications.component';
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NotificationsComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

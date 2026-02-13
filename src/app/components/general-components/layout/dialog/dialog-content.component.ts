@@ -16,7 +16,7 @@ import { MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth.service';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-dialog-content',
@@ -42,8 +42,8 @@ export class DialogContentComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DialogContentComponent>,
-    private authService: AuthService,
-    private router: Router
+    private userService: UserService,
+    private router: Router,
   ) {
     this.title = data?.title;
     this.content = data?.content;
@@ -64,8 +64,14 @@ export class DialogContentComponent {
   }
 
   logOut(): void {
-    this.authService.removeToken();
-    this.dialogRef.close();
-    this.router.navigate(['/login']);
+    // remove from localstorage
+    UserService.logout();
+
+    // remove from server
+    this.userService.logout().subscribe({
+      next: () => {
+        this.dialogRef.close();
+      },
+    });
   }
 }

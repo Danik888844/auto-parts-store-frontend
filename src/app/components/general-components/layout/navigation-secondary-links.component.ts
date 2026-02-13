@@ -6,16 +6,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
-import { UserDto, Role } from '../../../core/models/user-dto';
+import { UserDto } from '../../../core/models/users/user-dto';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-navigation-secondary-links',
   template: `
     @if (currentUser()) {
       <div class="user-info">
-        <div class="user-name">{{ currentUser()!.fullName }}</div>
-        <div class="role-badge">{{ getRoleName(currentUser()!.role) }}</div>
+        <div class="user-name">
+          {{ currentUser()?.firstName + ' ' + currentUser()?.lastName }}
+        </div>
       </div>
       <button mat-icon-button (click)="openDialog()" title="Выйти">
         <mat-icon>logout</mat-icon>
@@ -26,13 +27,7 @@ import { UserDto, Role } from '../../../core/models/user-dto';
       </button>
     }
   `,
-  imports: [
-    MatMenuModule,
-    MatButtonModule,
-    MatIcon,
-    CommonModule,
-    RouterLink,
-  ],
+  imports: [MatMenuModule, MatButtonModule, MatIcon, CommonModule, RouterLink],
   standalone: true,
   styles: `
     .user-info {
@@ -68,26 +63,18 @@ export class NavigationSecondaryLinksComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     // Отслеживаем изменения пользователя через effect
     effect(() => {
-      this.currentUser.set(this.authService.currentUser());
+      const user = UserService.getUser().user;
+      if (user) this.currentUser.set(user);
     });
   }
 
   ngOnInit(): void {
-    this.currentUser.set(this.authService.currentUser());
-  }
-
-  getRoleName(role: Role): string {
-    const roleNames: Record<Role, string> = {
-      [Role.CLIENT]: 'Клиент',
-      [Role.ADMIN]: 'Администратор',
-      [Role.TECH]: 'Мастер',
-    };
-    return roleNames[role] || role;
+    const user = UserService.getUser().user;
+    if (user) this.currentUser.set(user);
   }
 
   openDialog(): void {
