@@ -13,6 +13,7 @@ import { NavigationLinkModel } from '../../../core/helpers/consts/links';
         mat-ripple
         [routerLink]="data.link"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
         [ngClass]="hasHighlight ? ['highlight'] : ''"
       >
         @if(data.icon) {
