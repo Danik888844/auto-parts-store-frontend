@@ -62,10 +62,8 @@ export class DialogContentComponent {
   }
 
   logOut(): void {
-    // remove from localstorage
     UserService.logout();
 
-    // remove from server
     this.userService.logout().subscribe({
       next: () => {
         this.dialogRef.close();

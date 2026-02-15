@@ -12,10 +12,10 @@ import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexMarkers, 
 export class DashboardComponent {
   salesCount: number = 0;
 
-  blueWaveUrl = "/src/assets/images/svg-waves/blue-wave.svg";
-  cyanWaveUrl = "/src/assets/images/svg-waves/cyan-wave.svg";
-  aquaWaveUrl = "/src/assets/images/svg-waves/aqua-wave.svg";
-  peachWaveUrl = "/src/assets/images/svg-waves/peach-wave.svg";
+  blueWaveUrl = "/assets/images/svg-waves/blue-wave.svg";
+  cyanWaveUrl = "/assets/images/svg-waves/cyan-wave.svg";
+  aquaWaveUrl = "/assets/images/svg-waves/aqua-wave.svg";
+  peachWaveUrl = "/assets/images/svg-waves/peach-wave.svg";
 
   series!: ApexAxisChartSeries;
   chart!: ApexChart;
@@ -93,11 +93,13 @@ export class DashboardComponent {
   }
 
   public initChartData(): void {
+    const sourceData = this.dataSeries[0];
     let ts2 = 1484418600000;
-    let dates = [];
+    const dates = [];
     for (let i = 0; i < 120; i++) {
       ts2 = ts2 + 86400000;
-      dates.push([ts2, this.dataSeries[1][i].value]);
+      const item = sourceData[i % sourceData.length];
+      dates.push([ts2, item.value]);
     }
 
     this.series = [

@@ -87,6 +87,7 @@ export class NavigationSecondaryLinksComponent implements OnInit {
         title: 'Logout',
         content: 'AreYouSureToExit',
         btnText: 'Yes',
+        isLogout: true,
       },
       width: '250px',
     });

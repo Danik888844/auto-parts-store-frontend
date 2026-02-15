@@ -1,6 +1,6 @@
 .success-notification {
   --mat-snack-bar-button-color: #4CAF50;
-  --mdc-snackbar-container-color: #4a4a4a;
+  --mdc-snackbar-container-color: #fff;
 
   .mat-mdc-snack-bar-label {
     border-left: 4px solid #4CAF50;
@@ -8,7 +8,7 @@
 }
 
 .warning-notification {
-  --mdc-snackbar-container-color: #4a4a4a;
+  --mdc-snackbar-container-color: #fff;
 
   .mat-mdc-snack-bar-label {
     border-left: 4px solid #ffd740;
@@ -17,7 +17,7 @@
 
 .error-notification {
   --mat-snack-bar-button-color: #d90000;
-  --mdc-snackbar-container-color: #4a4a4a;
+  --mdc-snackbar-container-color: #fff;
 
   .mat-mdc-snack-bar-label {
     border-left: 4px solid #d90000;

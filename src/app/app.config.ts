@@ -17,9 +17,14 @@ import localeKz from '@angular/common/locales/kk';
 import localeEn from '@angular/common/locales/en';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from '../environments/environment';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 registerLocaleData(localeRu, 'ru');
 registerLocaleData(localeEn, 'en');
@@ -29,9 +34,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptorsFromDi()),
     importProvidersFrom(
       BrowserAnimationsModule,
+      MatSnackBarModule,
       JwtModule.forRoot({
         config: {
           tokenGetter: GetToken,
@@ -46,8 +52,8 @@ export const appConfig: ApplicationConfig = {
         suffix: `.json?v=${environment.version}`,
       }),
     }),
-    { provide: HTTP_INTERCEPTORS, useValue: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useValue: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {
       provide: LOCALE_ID,
       useFactory: () => localStorage.getItem('@lang') || 'en',
