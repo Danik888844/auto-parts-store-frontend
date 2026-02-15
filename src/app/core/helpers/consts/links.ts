@@ -7,37 +7,37 @@ export class NavigationLinkModel {
 
 export const navigationLinks: NavigationLinkModel[] = [
   {
-    title: 'Главная',
+    title: 'Dashboard',
     icon: "dashboard",
     link: "/dashboard",
     id: "navbar_dashboard"
   },
   {
-    title: 'Товары',
+    title: 'Products',
     icon: "inventory_2",
     link: "/products",
     id: "navbar_products"
   },
   {
-    title: 'Клиенты',
+    title: 'Clients',
     icon: "people",
     link: "/clients",
     id: "navbar_clients"
   },
   {
-    title: 'Склад',
+    title: 'Warehouse',
     icon: "warehouse",
     link: "/warehouse",
     id: "navbar_warehouse"
   },
   {
-    title: 'Продажи',
+    title: 'Sales',
     icon: "point_of_sale",
     link: "/sales",
     id: "navbar_sales"
   },
   {
-    title: 'Отчеты',
+    title: 'Reports',
     icon: "assessment",
     link: "/reports",
     id: "navbar_reports"

@@ -1,21 +1,33 @@
 import { Component } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexMarkers, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, NgApexchartsModule } from "ng-apexcharts";
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexDataLabels,
+  ApexFill,
+  ApexMarkers,
+  ApexTitleSubtitle,
+  ApexTooltip,
+  ApexXAxis,
+  ApexYAxis,
+  NgApexchartsModule,
+} from 'ng-apexcharts';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [TranslateModule, NgApexchartsModule],
+  imports: [TranslateModule, NgApexchartsModule, MatIconModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
   salesCount: number = 0;
 
-  blueWaveUrl = "/assets/images/svg-waves/blue-wave.svg";
-  cyanWaveUrl = "/assets/images/svg-waves/cyan-wave.svg";
-  aquaWaveUrl = "/assets/images/svg-waves/aqua-wave.svg";
-  peachWaveUrl = "/assets/images/svg-waves/peach-wave.svg";
+  blueWaveUrl = '/assets/images/svg-waves/blue-wave.svg';
+  cyanWaveUrl = '/assets/images/svg-waves/cyan-wave.svg';
+  aquaWaveUrl = '/assets/images/svg-waves/aqua-wave.svg';
+  peachWaveUrl = '/assets/images/svg-waves/peach-wave.svg';
 
   series!: ApexAxisChartSeries;
   chart!: ApexChart;
@@ -28,67 +40,67 @@ export class DashboardComponent {
   tooltip!: ApexTooltip;
 
   dataSeries = [
-  [
-    {
-      date: "2014-01-01",
-      value: 20000000
-    },
-    {
-      date: "2014-01-02",
-      value: 10379978
-    },
-    {
-      date: "2014-01-03",
-      value: 30493749
-    },
-    {
-      date: "2014-01-04",
-      value: 10785250
-    },
-    {
-      date: "2014-01-05",
-      value: 33901904
-    },
-    {
-      date: "2014-01-06",
-      value: 11576838
-    },
-    {
-      date: "2014-01-07",
-      value: 14413854
-    },
-    {
-      date: "2014-01-08",
-      value: 15177211
-    },
-    {
-      date: "2014-01-09",
-      value: 16622100
-    },
-    {
-      date: "2014-01-10",
-      value: 17381072
-    },
-    {
-      date: "2014-01-11",
-      value: 18802310
-    },
-    {
-      date: "2014-01-12",
-      value: 15531790
-    },
-    {
-      date: "2014-01-13",
-      value: 15748881
-    },
-    {
-      date: "2014-01-14",
-      value: 18706437
-    },
-  ]
-];
+    [
+      {
+        date: '2014-01-01',
+        value: 20000000,
+      },
+      {
+        date: '2014-01-02',
+        value: 10379978,
+      },
+      {
+        date: '2014-01-03',
+        value: 30493749,
+      },
+      {
+        date: '2014-01-04',
+        value: 10785250,
+      },
+      {
+        date: '2014-01-05',
+        value: 33901904,
+      },
+      {
+        date: '2014-01-06',
+        value: 11576838,
+      },
+      {
+        date: '2014-01-07',
+        value: 14413854,
+      },
+      {
+        date: '2014-01-08',
+        value: 15177211,
+      },
+      {
+        date: '2014-01-09',
+        value: 16622100,
+      },
+      {
+        date: '2014-01-10',
+        value: 17381072,
+      },
+      {
+        date: '2014-01-11',
+        value: 18802310,
+      },
+      {
+        date: '2014-01-12',
+        value: 15531790,
+      },
+      {
+        date: '2014-01-13',
+        value: 15748881,
+      },
+      {
+        date: '2014-01-14',
+        value: 18706437,
+      },
+    ],
+  ];
 
-  constructor() {
+  constructor(private translateService: TranslateService) {
     this.initChartData();
   }
 
@@ -104,63 +116,65 @@ export class DashboardComponent {
 
     this.series = [
       {
-        name: "XYZ MOTORS",
-        data: dates
-      }
+        name: 'XYZ MOTORS',
+        data: dates,
+      },
     ];
     this.chart = {
-      type: "area",
+      fontFamily: 'Roboto, "Helvetica Neue"',
+      type: 'area',
       stacked: false,
       height: 350,
       zoom: {
-        type: "x",
+        type: 'x',
         enabled: true,
-        autoScaleYaxis: true
+        autoScaleYaxis: true,
       },
       toolbar: {
-        autoSelected: "zoom"
-      }
+        autoSelected: 'zoom',
+      },
     };
     this.dataLabels = {
-      enabled: false
+      enabled: false,
     };
     this.markers = {
-      size: 0
+      size: 0,
     };
     this.title = {
-      text: "Stock Price Movement",
-      align: "left"
+      text: this.translateService.instant('SalesPerMonth'),
+      align: 'left',
+      style: { fontSize: '16px', fontWeight: 600 },
     };
     this.fill = {
-      type: "gradient",
+      type: 'gradient',
       gradient: {
         shadeIntensity: 1,
         inverseColors: false,
         opacityFrom: 0.5,
         opacityTo: 0,
-        stops: [0, 90, 100]
-      }
+        stops: [0, 90, 100],
+      },
     };
     this.yaxis = {
       labels: {
-        formatter: function(val) {
+        formatter: function (val) {
           return (val / 1000000).toFixed(0);
-        }
+        },
       },
       title: {
-        text: "Price"
-      }
+        text: 'Price',
+      },
     };
     this.xaxis = {
-      type: "datetime"
+      type: 'datetime',
     };
     this.tooltip = {
       shared: false,
       y: {
-        formatter: function(val) {
+        formatter: function (val) {
           return (val / 1000000).toFixed(0);
-        }
-      }
+        },
+      },
     };
   }
 }
