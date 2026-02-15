@@ -14,8 +14,7 @@ import {
 } from '@angular/forms';
 import { MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import { Router } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
 import { UserService } from '../../../../core/services/user.service';
 
 @Component({
@@ -43,7 +42,6 @@ export class DialogContentComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DialogContentComponent>,
     private userService: UserService,
-    private router: Router,
   ) {
     this.title = data?.title;
     this.content = data?.content;

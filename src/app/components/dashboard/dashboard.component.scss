@@ -1,0 +1,61 @@
+.stat-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 16px 26px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    .card-header {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 6px;
+        background: #f1f1f1;
+        color: #444;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .card-body {
+        margin-top: 20px;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .card-count {
+        font-size: 38px;
+        line-height: 1;
+        font-weight: 800;
+        color: #1f6feb;
+    }
+
+    .card-label {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1f6feb;
+    }
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 55%;
+  background: var(--wave-url) no-repeat bottom;
+  background-size: 100% auto;
+  pointer-events: none;
+}

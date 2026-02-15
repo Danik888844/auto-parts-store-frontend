@@ -4,6 +4,7 @@ import { NgClass } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIcon } from "@angular/material/icon";
 import { NavigationLinkModel } from '../../../core/helpers/consts/links';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navigation-link-item',
@@ -16,10 +17,10 @@ import { NavigationLinkModel } from '../../../core/helpers/consts/links';
         [routerLinkActiveOptions]="{ exact: true }"
         [ngClass]="hasHighlight ? ['highlight'] : ''"
       >
-        @if(data.icon) {
+        @if (data.icon) {
           <mat-icon>{{ data.icon }}</mat-icon>
         }
-        <div class="text flex-grow-1">{{ data.title }}</div>
+        <div class="text flex-grow-1">{{ data.title | translate }}</div>
       </a>
     </li>
   `,
@@ -28,8 +29,9 @@ import { NavigationLinkModel } from '../../../core/helpers/consts/links';
     NgClass,
     RouterLink,
     RouterLinkActive,
-    MatIcon
-],
+    MatIcon,
+    TranslateModule,
+  ],
   standalone: true,
 })
 export class NavigationLinkItemComponent {

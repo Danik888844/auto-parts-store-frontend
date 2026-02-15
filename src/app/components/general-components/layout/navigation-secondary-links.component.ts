@@ -5,23 +5,36 @@ import { DialogContentComponent } from './dialog/dialog-content.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { UserDto } from '../../../core/models/users/user-dto';
 import { UserService } from '../../../core/services/user.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navigation-secondary-links',
   template: `
     @if (currentUser()) {
-      <div class="user-initials" [title]="currentUser()?.firstName + ' ' + currentUser()?.lastName">
+      <div
+        class="user-initials"
+        [title]="currentUser()?.firstName + ' ' + currentUser()?.lastName"
+      >
         {{ getInitials() }}
       </div>
-      <button mat-icon-button (click)="openDialog()" title="Выйти">
+      <button
+        mat-icon-button
+        (click)="openDialog()"
+        title="{{ 'Logout' | translate }}"
+      >
         <mat-icon>logout</mat-icon>
       </button>
     }
   `,
-  imports: [MatMenuModule, MatButtonModule, MatIcon, CommonModule],
+  imports: [
+    MatMenuModule,
+    MatButtonModule,
+    MatIcon,
+    CommonModule,
+    TranslateModule,
+  ],
   standalone: true,
   styles: `
     .user-initials {
@@ -44,7 +57,7 @@ export class NavigationSecondaryLinksComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private router: Router,
+    private translateService: TranslateService,
   ) {
     // Отслеживаем изменения пользователя через effect
     effect(() => {
@@ -63,7 +76,7 @@ export class NavigationSecondaryLinksComponent implements OnInit {
     if (!user) return '';
     const first = (user.firstName || '').trim().charAt(0).toUpperCase();
     const last = (user.lastName || '').trim().charAt(0).toUpperCase();
-    if (first || last) return (first + last) || '?';
+    if (first || last) return first + last || '?';
     if (user.userName) return user.userName.charAt(0).toUpperCase();
     return '?';
   }
@@ -71,10 +84,9 @@ export class NavigationSecondaryLinksComponent implements OnInit {
   openDialog(): void {
     this.dialog.open(DialogContentComponent, {
       data: {
-        title: 'Выход',
-        content: 'Вы уверены, что хотите выйти?',
-        btnText: 'Да',
-        isLogout: true,
+        title: 'Logout',
+        content: 'AreYouSureToExit',
+        btnText: 'Yes',
       },
       width: '250px',
     });

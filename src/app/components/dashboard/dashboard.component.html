@@ -1,0 +1,57 @@
+<div class="ml-10 mr-10">
+    <div class="d-flex gap-2 mb-2 flex-row">
+        <div 
+        class="stat-card"
+        [style.--wave-url]="'url(' + blueWaveUrl + ')'">
+            <div class="card-header">{{"SalesToday" | translate}}</div>
+            <div class="card-body">
+                <span class="card-count">{{ salesCount }}</span> 
+                <span class="card-label">{{"orders" | translate}}</span>
+            </div>
+        </div>
+
+        <div 
+        class="stat-card"
+        [style.--wave-url]="'url(' + cyanWaveUrl + ')'">
+            <div class="card-header">{{"IncomePerWeek" | translate}}</div>
+            <div class="card-body">
+                <span class="card-count">{{ salesCount }} ₽</span>
+            </div>
+        </div>
+
+        <div 
+        class="stat-card"
+        [style.--wave-url]="'url(' + aquaWaveUrl + ')'">
+            <div class="card-header">{{"RemainingStock" | translate}}</div>
+            <div class="card-body">
+                <span class="card-count">{{ salesCount }}</span> 
+                <span class="card-label">{{"products" | translate}}</span>
+            </div>
+        </div>
+
+        <div 
+        class="stat-card"
+        [style.--wave-url]="'url(' + peachWaveUrl + ')'">
+            <div class="card-header">{{"Clients" | translate}}</div>
+            <div class="card-body">
+                <span class="card-count">{{ salesCount }}</span> 
+                <span class="card-label">{{"contacts" | translate}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-form">
+        <apx-chart
+            [series]="series"
+            [chart]="chart"
+            [dataLabels]="dataLabels"
+            [markers]="markers"
+            [title]="title"
+            [fill]="fill"
+            [yaxis]="yaxis"
+            [xaxis]="xaxis"
+            [tooltip]="tooltip"
+            [autoUpdateSeries]="true"
+        ></apx-chart>
+    </div>
+</div>
