@@ -16,6 +16,7 @@ import { MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UserService } from '../../../../core/services/user.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dialog-content',
@@ -29,12 +30,13 @@ import { UserService } from '../../../../core/services/user.service';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    TranslateModule,
   ],
 })
 export class DialogContentComponent {
-  title: string = 'Заголовок';
-  content: string = 'Контент';
-  btnText: string = 'Ок';
+  title: string = 'Title';
+  content: string = 'Content';
+  btnText: string = 'Ok';
 
   hideCancel = false;
 

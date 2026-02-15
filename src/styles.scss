@@ -30,3 +30,62 @@ a{
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+
+/* Catalog dropdown: стили по классам Material (overlay вне компонента) */
+/* Вариант 1: если класс панели применён к overlay */
+.mat-mdc-menu-panel.nav-catalog-panel .mat-mdc-menu-content,
+.nav-catalog-panel .mat-mdc-menu-content {
+  background-color: #fff !important;
+  color: #424242;
+}
+
+.mat-mdc-menu-panel.nav-catalog-panel .nav-dropdown-section-title,
+.nav-catalog-panel .nav-dropdown-section-title {
+  padding: 8px 16px 0;
+  font-size: 16px !important;
+  font-weight: 600;
+  color: #424242;
+}
+
+.mat-mdc-menu-panel.nav-catalog-panel .mat-mdc-menu-item,
+.nav-catalog-panel .mat-mdc-menu-item {
+  font-size: 14px !important;
+  color: #424242;
+}
+
+/* Вариант 2: меню каталога — единственное с секциями .nav-dropdown-section-title */
+.mat-mdc-menu-content:has(.nav-dropdown-section-title) {
+  background-color: #fff !important;
+  color: #424242;
+}
+.mat-mdc-menu-content:has(.nav-dropdown-section-title) .nav-dropdown-section-title {
+  padding: 8px 16px 0;
+  font-size: 16px !important;
+  font-weight: 600;
+  color: #424242;
+}
+.mat-mdc-menu-content:has(.nav-dropdown-section-title) .mat-mdc-menu-item {
+  font-size: 14px !important;
+  color: #424242;
+}
+
+/* Переключатель языка в шапке — класс с mat-menu задаётся через class="...", попадает на overlay */
+.mat-mdc-menu-panel.lang-menu-panel,
+.lang-menu-panel.mat-mdc-menu-panel {
+  .mat-mdc-menu-content {
+    background-color: #fff;
+    color: #424242;
+    padding: 4px 0;
+    min-width: 64px;
+  }
+  .mat-mdc-menu-item {
+    font-size: 14px;
+    color: #424242;
+    min-height: 36px;
+    &.active {
+      color: #1e88e5;
+      font-weight: 600;
+      background: rgba(30, 136, 229, 0.08);
+    }
+  }
+}

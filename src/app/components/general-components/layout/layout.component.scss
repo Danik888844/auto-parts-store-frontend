@@ -8,7 +8,7 @@
   .header {
     display: flex;
     align-items: center;
-    padding: 12px 24px;
+    padding: 8px 24px;
     background: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     position: sticky;
@@ -69,7 +69,8 @@
         flex-shrink: 0;
       }
 
-      ::ng-deep app-navigation-link-item {
+      ::ng-deep app-navigation-link-item,
+      ::ng-deep app-navigation-dropdown-item {
         display: inline-block;
 
         li {
@@ -77,7 +78,8 @@
           margin: 0;
           padding: 0;
 
-          a {
+          a,
+          button.nav-dropdown-trigger {
             display: flex;
             align-items: center;
             justify-content: center;

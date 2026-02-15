@@ -8,10 +8,36 @@ import { CommonModule } from '@angular/common';
 import { UserDto } from '../../../core/models/users/user-dto';
 import { UserService } from '../../../core/services/user.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UiLanguageService } from '../../../core/services/ui-language.service';
+
+const LANG_LABELS: Record<string, string> = { en: 'EN', ru: 'RU', kz: 'KZ' };
 
 @Component({
   selector: 'app-navigation-secondary-links',
   template: `
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="langMenu"
+      class="lang-switcher"
+      [title]="'Language' | translate"
+      type="button"
+    >
+      <span class="lang-code">{{
+        LANG_LABELS[currentLangCode()] || currentLangCode()
+      }}</span>
+    </button>
+    <mat-menu #langMenu="matMenu" class="lang-menu-panel">
+      @for (lang of languages; track lang) {
+        <button
+          mat-menu-item
+          (click)="setLanguage(lang)"
+          [class.active]="currentLangCode() === lang"
+        >
+          {{ LANG_LABELS[lang] }}
+        </button>
+      }
+    </mat-menu>
+
     @if (currentUser()) {
       <div
         class="user-initials"
@@ -50,16 +76,33 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
       font-weight: 600;
       flex-shrink: 0;
     }
+    .lang-switcher {
+      .lang-code {
+        font-size: 12px;
+        font-weight: 600;
+        color: #333;
+      }
+      &:hover .lang-code {
+        color: #1e88e5;
+      }
+    }
   `,
 })
 export class NavigationSecondaryLinksComponent implements OnInit {
   currentUser = signal<UserDto | null>(null);
+  currentLangCode = signal<string>('en');
+  protected readonly LANG_LABELS = LANG_LABELS;
+
+  get languages(): string[] {
+    return this.uiLang.getLanguages();
+  }
 
   constructor(
     public dialog: MatDialog,
     private translateService: TranslateService,
+    private uiLang: UiLanguageService,
   ) {
-    // Отслеживаем изменения пользователя через effect
+    this.currentLangCode.set(this.uiLang.getLangCode());
     effect(() => {
       const user = UserService.getUser().user;
       if (user) this.currentUser.set(user);
@@ -69,6 +112,12 @@ export class NavigationSecondaryLinksComponent implements OnInit {
   ngOnInit(): void {
     const user = UserService.getUser().user;
     if (user) this.currentUser.set(user);
+    this.currentLangCode.set(this.uiLang.getLangCode());
+  }
+
+  setLanguage(lang: string): void {
+    this.uiLang.setLang(lang);
+    this.currentLangCode.set(this.uiLang.getLangCode());
   }
 
   getInitials(): string {
@@ -85,7 +134,7 @@ export class NavigationSecondaryLinksComponent implements OnInit {
     this.dialog.open(DialogContentComponent, {
       data: {
         title: 'Logout',
-        content: 'AreYouSureToExit',
+        content: this.translateService.instant('AreYouSureToExit'),
         btnText: 'Yes',
         isLogout: true,
       },

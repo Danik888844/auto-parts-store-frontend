@@ -1,3 +1,5 @@
 {
-    "User": "User"
+  "User": "User",
+  "AreYouSureToExit": "Are you sure you want to exit?",
+  "Language": "Language"
 }
