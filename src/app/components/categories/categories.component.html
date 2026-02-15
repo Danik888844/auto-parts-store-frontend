@@ -1,1 +1,53 @@
-<p>categories works!</p>
+<div>
+    <div class="categories-toolbar">
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Поиск по странице</mat-label>
+            <input matInput [(ngModel)]="searchInput" (ngModelChange)="onSearchInput()" placeholder="Название..." />
+        </mat-form-field>
+        <div class="toolbar-actions">
+            <button mat-icon-button (click)="openNewCategory()" matTooltip="Добавить">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="openEditCategory()" [disabled]="!selectedCategory" matTooltip="Редактировать">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteCategory()" [disabled]="!selectedCategory" matTooltip="Удалить">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+    <app-ag-grid-list
+        [showColumnManager]="false"
+        [rowData]="rowData"
+        [colDefs]="colDefs"
+        [rowSelection]="rowSelection"
+        [gridOptions]="gridOptions"
+        [pagination]="false"
+        (onSelectionChanged)="onSelectionChanged($event)"
+        (onGridReady)="onGridReady($event)"
+        (rowDataUpdated)="onRowDataUpdated()"
+    />
+
+    <app-pagination
+        [paginationInfo]="paginationInfo ? getPaginationInfo(paginationInfo) : null"
+        [viewSize]="pageView"
+        [isShortPageSize]="true"
+        (pageChange)="onPageChange($event)"
+        (viewSizeChange)="onViewSizeChange($event)"
+    />
+
+    <app-popup [isOpen]="showCategoryModal" (closed)="closeCategoryPopup()">
+      @if (isNew) {
+        <app-new-category
+          (saveData)="onCategorySaved()"
+          (cancel)="closeCategoryPopup()"
+        />
+      } @else {
+        <app-edit-category
+          [category]="categoryForEdit"
+          (saveData)="onCategorySaved()"
+          (cancel)="closeCategoryPopup()"
+        />
+      }
+    </app-popup>
+</div>

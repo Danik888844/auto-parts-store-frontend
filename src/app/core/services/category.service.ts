@@ -10,27 +10,27 @@ import { SingleResponseModel } from "../models/general/single-response.model";
 import { PaginationQueryDto } from "../models/general/pagination-query-dto";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
-export class UserService {
-    private url = environment.apiUrlServer + "/category";
+export class CategoryService {
+  private url = environment.apiUrlServer + '/category';
 
-    constructor(
-        private http: HttpClient,
-        public jwtHelper: JwtHelperService
-    ) {    
-    }
+  constructor(
+    private http: HttpClient,
+    public jwtHelper: JwtHelperService,
+  ) {}
 
-   getList(
-    form: PaginationQueryDto
+  getList(
+    form: PaginationQueryDto,
   ): Observable<ListResponseModel<CategoryDto>> {
-    return this.http.post<ListResponseModel<CategoryDto>>(`${this.url}/list`, form);
+    return this.http.post<ListResponseModel<CategoryDto>>(
+      `${this.url}/list`,
+      form,
+    );
   }
 
   getBy(id: string): Observable<SingleResponseModel<CategoryDto>> {
-    return this.http.get<SingleResponseModel<CategoryDto>>(
-      `${this.url}/${id}`,
-    );
+    return this.http.get<SingleResponseModel<CategoryDto>>(`${this.url}/${id}`);
   }
 
   create(form: any): Observable<SingleResponseModel<CategoryDto>> {
@@ -38,7 +38,10 @@ export class UserService {
   }
 
   edit(id: string, form: any): Observable<SingleResponseModel<CategoryDto>> {
-    return this.http.put<SingleResponseModel<CategoryDto>>(`${this.url}/${id}`, form);
+    return this.http.put<SingleResponseModel<CategoryDto>>(
+      `${this.url}/${id}`,
+      form,
+    );
   }
 
   delete(id: string): Observable<ResponseModel> {

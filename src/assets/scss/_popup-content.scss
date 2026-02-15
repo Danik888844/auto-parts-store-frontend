@@ -1,0 +1,29 @@
+// Стили контента внутри popup. Использование в компонентах, которые рендерятся внутри <app-popup>:
+// @use 'assets/scss/popup-content' as popup;
+// и в шаблоне: <h2 class="popup-title">...</h2>, <div class="popup-content">...</div>, <div class="popup-actions">...</div>
+
+.popup-title {
+  margin: 0;
+  padding: 1rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.popup-content {
+  padding: 1rem 1.5rem;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.popup-error {
+  color: var(--mat-form-field-error-text-color, #f44336);
+  font-size: 12px;
+  margin: 0.5rem 0 0;
+}

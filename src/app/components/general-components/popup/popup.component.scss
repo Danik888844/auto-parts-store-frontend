@@ -1,0 +1,23 @@
+/* Переиспользуемый popup: затемнённый фон + панель.
+   Контент задаётся через ng-content. В других экранах используйте
+   <app-popup [isOpen]="..." (closed)="..."><ваш контент></app-popup> */
+
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-panel {
+  background: var(--mat-dialog-container-background-color, #fff);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  min-width: 320px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+}

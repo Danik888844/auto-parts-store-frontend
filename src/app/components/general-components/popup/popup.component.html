@@ -1,0 +1,7 @@
+@if (isOpen) {
+  <div class="popup-backdrop" (click)="onBackdropClick()" role="presentation">
+    <div class="popup-panel" (click)="onPanelClick($event)" role="dialog" aria-modal="true">
+      <ng-content></ng-content>
+    </div>
+  </div>
+}

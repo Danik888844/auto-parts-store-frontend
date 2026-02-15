@@ -1,0 +1,26 @@
+<h2 class="popup-title">Новая категория</h2>
+<div class="popup-content">
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Название</mat-label>
+      <input matInput formControlName="name" placeholder="Введите название" />
+      @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+        <mat-error>Введите название</mat-error>
+      }
+    </mat-form-field>
+  </form>
+  @if (errorMessage) {
+    <p class="popup-error">{{ errorMessage }}</p>
+  }
+</div>
+<div class="popup-actions">
+  <button mat-button (click)="onCancel()">Отмена</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="submit()"
+    [disabled]="form.invalid || submitting"
+  >
+    {{ submitting ? 'Сохранение...' : 'Создать' }}
+  </button>
+</div>

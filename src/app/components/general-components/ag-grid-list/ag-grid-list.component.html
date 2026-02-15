@@ -1,0 +1,61 @@
+<div class="d-flex gap-2 align-items-center">
+
+@if (showSelectedNumber && gridApi && gridApi.getSelectedRows().length > 0) {
+  <div class="listing-layout-container p-0">
+    <div class="notice mb-2">
+      {{
+        'ChoosenItems' | translate: {Replace: gridApi.getSelectedRows().length}
+      }}
+      <span
+        class="select-action"
+        *ngIf="!isSelectedAll()"
+        (click)="gridApi.selectAll('filtered')">
+        {{ "SelectAllRecords" | translate }}
+      </span>
+      <span
+        class="select-action w-100"
+        (click)="gridApi.deselectAll('all')">
+        {{ "DeselectAllRecords" | translate }}
+      </span>
+    </div>
+  </div>
+}
+<div
+  id="ag-grid-container"
+  class="simple-list"
+  style="display: flex; flex-direction: column"
+>
+  <div [ngStyle]="style">
+    <ag-grid-angular
+      style="width: 100%; height: 100%"
+      [rowData]="rowData"
+      [columnDefs]="colDefs"
+      [domLayout]="domLayout"
+      [gridOptions]="gridOptions"
+      [rowSelection]="isRowSelectable ? rowSelection : undefined"
+      [selectionColumnDef]="isRowSelectable ? selectionColumnDef : undefined"
+      [rowHeight]="60"
+      [pagination]="pagination"
+      [paginationPageSize]="paginationPageSize"
+      [paginationPageSizeSelector]="paginationPageSizeSelector"
+      [suppressMoveWhenRowDragging]="suppressMoveWhenRowDragging"
+      [context]="getContext"
+      [getRowStyle]="getRowStyle"
+      [getRowClass]="getRowClass"
+      [rowDragManaged]="rowDragManaged"
+      [loading]="loading"
+      (gridReady)="onGridReadyEmit($event)"
+      (columnMoved)="onColumnMoved()"
+      (rowClicked)="onRowClickEvent($event)"
+      (rowSelected)="onRowSelected.emit($event)"
+      (rowDragEnd)="onRowDragEnd.emit($event)"
+      (firstDataRendered)="onFirstDataRenderer.emit($event)"
+      (columnVisible)="onColumnVisible()"
+      (selectionChanged)="onSelectionChanged.emit($event)"
+      (stateUpdated)="onStateChanged($event)"
+      (rowDataUpdated)="onRowDataUpdated($event)"
+      (filterChanged)="onFilterChanged.emit($event)"
+      (sortChanged)="onSortChanged.emit($event)"
+    />
+  </div>
+</div>
