@@ -4,4 +4,5 @@ export const environment = {
   recoveryToken: 'apsRecov',
   authTokenName: 'apsAuth',
   apiUrlIdentity: 'https://localhost:5001/api',
+  apiUrlServer: 'https://localhost:5003/api',
 };

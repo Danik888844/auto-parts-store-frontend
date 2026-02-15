@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { decodeHtml } from '../helpers/decode-html';
+import { decodeHtml } from '../../helpers/decode-html';
 
 @Injectable({
   providedIn: 'root',

@@ -1,5 +1,5 @@
-import { ResponseModel } from "./response.model";
+import { ResponseModel } from './response.model';
 
-export interface SingleResponeModel<T> extends ResponseModel {
-    data: T
+export interface SingleResponseModel<T> extends ResponseModel {
+  data: T;
 }
