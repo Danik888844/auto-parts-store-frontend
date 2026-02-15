@@ -146,7 +146,7 @@ export class AgGridListComponent implements OnChanges {
     const columnState = this.gridApi!.getColumnState();
 
     this.colDefs = columnState
-      .map((state) => {
+      .map((state: any) => {
         const colDef = this.colDefs.find((cd) => cd.field === state.colId);
         if (!colDef) {
           return null;

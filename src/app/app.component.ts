@@ -5,7 +5,7 @@ import {
   Router,
   RouterOutlet,
 } from '@angular/router';
-import { UiLanguageService } from './core/services/ui-language.service';
+import { UiLanguageService } from './core/services/helpers/ui-language.service';
 import { filter, map, mergeMap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 @Component({

@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { UserDto } from '../../../core/models/users/user-dto';
 import { UserService } from '../../../core/services/user.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { UiLanguageService } from '../../../core/services/ui-language.service';
+import { UiLanguageService } from '../../../core/services/helpers/ui-language.service';
 
 const LANG_LABELS: Record<string, string> = { en: 'EN', ru: 'RU', kz: 'KZ' };
 
