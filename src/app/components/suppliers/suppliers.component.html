@@ -1,1 +1,59 @@
-<p>suppliers works!</p>
+<div>
+    <div class="list-toolbar">
+        <div class="list-toolbar__search">
+            <input
+                type="text"
+                [(ngModel)]="searchInput"
+                (ngModelChange)="onSearchInput()"
+                placeholder="{{ 'SearchByName' | translate }}"
+            />
+        </div>
+        <div class="list-toolbar__actions">
+            <button mat-icon-button class="list-toolbar__btn--add" (click)="openNewSupplier()" matTooltip="{{ 'Add' | translate }}">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button class="list-toolbar__btn--edit" (click)="openEditSupplier()" [disabled]="!selectedSupplier" matTooltip="{{ 'Edit' | translate }}">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="list-toolbar__btn--delete" (click)="deleteSupplier()" [disabled]="!selectedSupplier" matTooltip="{{ 'Delete' | translate }}">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="suppliers-grid-wrapper">
+      <app-ag-grid-list
+        [showColumnManager]="false"
+        [rowData]="rowData"
+        [colDefs]="colDefs"
+        [rowSelection]="rowSelection"
+        [gridOptions]="gridOptions"
+        [pagination]="false"
+        (onSelectionChanged)="onSelectionChanged($event)"
+        (onGridReady)="onGridReady($event)"
+        (rowDataUpdated)="onRowDataUpdated()"
+      />
+    </div>
+
+    <app-pagination
+        [paginationInfo]="paginationInfo ? getPaginationInfo(paginationInfo) : null"
+        [viewSize]="pageView"
+        [isShortPageSize]="true"
+        (pageChange)="onPageChange($event)"
+        (viewSizeChange)="onViewSizeChange($event)"
+    />
+
+    <app-popup [isOpen]="showSupplierModal" (closed)="closeSupplierPopup()">
+      @if (isNew) {
+        <app-new-supplier
+          (saveData)="onSupplierSaved()"
+          (cancel)="closeSupplierPopup()"
+        />
+      } @else {
+        <app-edit-supplier
+          [supplier]="supplierForEdit"
+          (saveData)="onSupplierSaved()"
+          (cancel)="closeSupplierPopup()"
+        />
+      }
+    </app-popup>
+</div>
