@@ -7,12 +7,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CategoryService } from '../../../core/services/category.service';
+import { ManufacturerService } from '../../../core/services/manufacturer.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoadingComponent } from '../../general-components/loading/loading.component';
 
 @Component({
-  selector: 'app-new-category',
+  selector: 'app-new-manufacturer',
   standalone: true,
   imports: [
     MatButtonModule,
@@ -21,10 +21,10 @@ import { LoadingComponent } from '../../general-components/loading/loading.compo
     TranslateModule,
     LoadingComponent,
   ],
-  templateUrl: './new-category.component.html',
-  styleUrl: './new-category.component.scss',
+  templateUrl: './new-manufacturer.component.html',
+  styleUrl: './new-manufacturer.component.scss',
 })
-export class NewCategoryComponent {
+export class NewManufacturerComponent {
   @Output() saveData = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -34,10 +34,11 @@ export class NewCategoryComponent {
 
   constructor(
     private fb: FormBuilder,
-    private categoryService: CategoryService,
+    private manufacturerService: ManufacturerService,
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(200)]],
+      country: ['', [Validators.maxLength(200)]],
     });
   }
 
@@ -50,7 +51,9 @@ export class NewCategoryComponent {
 
     this.errorMessage = '';
     this.isLoading = true;
-    this.categoryService.create(this.form.getRawValue()).subscribe({
+    const value = this.form.getRawValue();
+    const payload = { ...value, country: value.country?.trim() || null };
+    this.manufacturerService.create(payload).subscribe({
       next: () => {
         this.isLoading = false;
         this.saveData.emit();

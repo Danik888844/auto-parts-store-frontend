@@ -1,22 +1,27 @@
 <div>
-    <div class="categories-toolbar">
-        <mat-form-field appearance="outline" class="search-field">
-            <mat-label>Поиск по странице</mat-label>
-            <input matInput [(ngModel)]="searchInput" (ngModelChange)="onSearchInput()" placeholder="Название..." />
-        </mat-form-field>
-        <div class="toolbar-actions">
-            <button mat-icon-button (click)="openNewCategory()" matTooltip="Добавить">
+    <div class="list-toolbar">
+        <div class="list-toolbar__search">
+            <input
+                type="text"
+                [(ngModel)]="searchInput"
+                (ngModelChange)="onSearchInput()"
+                placeholder="{{ 'SearchByName' | translate }}"
+            />
+        </div>
+        <div class="list-toolbar__actions">
+            <button mat-icon-button class="list-toolbar__btn--add" (click)="openNewCategory()" matTooltip="{{ 'Add' | translate }}">
                 <mat-icon>add</mat-icon>
             </button>
-            <button mat-icon-button (click)="openEditCategory()" [disabled]="!selectedCategory" matTooltip="Редактировать">
+            <button mat-icon-button class="list-toolbar__btn--edit" (click)="openEditCategory()" [disabled]="!selectedCategory" matTooltip="{{ 'Edit' | translate }}">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="deleteCategory()" [disabled]="!selectedCategory" matTooltip="Удалить">
+            <button mat-icon-button class="list-toolbar__btn--delete" (click)="deleteCategory()" [disabled]="!selectedCategory" matTooltip="{{ 'Delete' | translate }}">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
     </div>
-    <app-ag-grid-list
+    <div class="categories-grid-wrapper">
+      <app-ag-grid-list
         [showColumnManager]="false"
         [rowData]="rowData"
         [colDefs]="colDefs"
@@ -26,7 +31,8 @@
         (onSelectionChanged)="onSelectionChanged($event)"
         (onGridReady)="onGridReady($event)"
         (rowDataUpdated)="onRowDataUpdated()"
-    />
+      />
+    </div>
 
     <app-pagination
         [paginationInfo]="paginationInfo ? getPaginationInfo(paginationInfo) : null"

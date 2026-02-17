@@ -13,11 +13,13 @@
 }
 
 .popup-panel {
-  background: var(--mat-dialog-container-background-color, #fff);
-  border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  min-width: 320px;
+  background: #fff;
+  color: #333;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  min-width: 40vw;
   max-width: 90vw;
   max-height: 90vh;
   overflow: auto;
+  padding: 24px;
 }

@@ -1,19 +1,9 @@
-.categories-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+:host {
+  display: block;
+  width: 100%;
+}
 
-  .search-field {
-    flex: 1;
-    min-width: 200px;
-    max-width: 320px;
-  }
-
-  .toolbar-actions {
-    display: flex;
-    gap: 0.25rem;
-  }
+.categories-grid-wrapper {
+  width: 100%;
+  min-width: 0;
 }

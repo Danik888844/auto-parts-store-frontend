@@ -1,26 +1,35 @@
-<h2 class="popup-title">Редактировать категорию</h2>
+<div class="popup-header">
+  <h2 class="popup-title">Редактировать категорию</h2>
+  <div class="popup-actions-top">
+    <button
+      mat-flat-button
+      class="popup-submit-btn"
+      (click)="submit()"
+      [disabled]="form.invalid || submitting"
+    >
+      {{ submitting ? 'Сохранение...' : 'Сохранить' }}
+    </button>
+    <button mat-icon-button class="popup-close-btn" (click)="onCancel()" [attr.aria-label]="'Закрыть'">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
 <div class="popup-content">
-  <form [formGroup]="form">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Название</mat-label>
-      <input matInput formControlName="name" placeholder="Введите название" />
+  <form [formGroup]="form" class="form-container">
+    <div class="form-group">
+      <label class="label" for="name">Название</label>
+      <input
+        id="name"
+        formControlName="name"
+        class="form-control popup-input"
+        placeholder="Введите название"
+      />
       @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
-        <mat-error>Введите название</mat-error>
+        <span class="popup-error-text">Введите название</span>
       }
-    </mat-form-field>
+    </div>
   </form>
   @if (errorMessage) {
     <p class="popup-error">{{ errorMessage }}</p>
   }
-</div>
-<div class="popup-actions">
-  <button mat-button (click)="onCancel()">Отмена</button>
-  <button
-    mat-flat-button
-    color="primary"
-    (click)="submit()"
-    [disabled]="form.invalid || submitting"
-  >
-    {{ submitting ? 'Сохранение...' : 'Сохранить' }}
-  </button>
 </div>

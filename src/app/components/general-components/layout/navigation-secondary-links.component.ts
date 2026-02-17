@@ -103,10 +103,13 @@ export class NavigationSecondaryLinksComponent implements OnInit {
     private uiLang: UiLanguageService,
   ) {
     this.currentLangCode.set(this.uiLang.getLangCode());
-    effect(() => {
-      const user = UserService.getUser().user;
-      if (user) this.currentUser.set(user);
-    });
+    effect(
+      () => {
+        const user = UserService.getUser().user;
+        if (user) this.currentUser.set(user);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   ngOnInit(): void {

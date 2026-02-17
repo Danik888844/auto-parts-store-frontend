@@ -7,18 +7,19 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CategoryService } from '../../../core/services/category.service';
-import { CategoryDto } from '../../../core/models/category/category-dto';
+import { ManufacturerService } from '../../../core/services/manufacturer.service';
+import { ManufacturerDto } from '../../../core/models/manufacturer/manufacturer-dto';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-edit-category',
+  selector: 'app-edit-manufacturer',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, ReactiveFormsModule],
-  templateUrl: './edit-category.component.html',
-  styleUrl: './edit-category.component.scss',
+  imports: [MatButtonModule, MatIconModule, ReactiveFormsModule, TranslateModule],
+  templateUrl: './edit-manufacturer.component.html',
+  styleUrl: './edit-manufacturer.component.scss',
 })
-export class EditCategoryComponent implements OnChanges {
-  @Input() category: CategoryDto | null = null;
+export class EditManufacturerComponent implements OnChanges {
+  @Input() manufacturer: ManufacturerDto | null = null;
   @Output() saveData = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -28,16 +29,20 @@ export class EditCategoryComponent implements OnChanges {
 
   constructor(
     private fb: FormBuilder,
-    private categoryService: CategoryService,
+    private manufacturerService: ManufacturerService,
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(200)]],
+      country: ['', [Validators.maxLength(200)]],
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['category']?.currentValue) {
-      this.form.patchValue({ name: this.category?.name ?? '' });
+    if (changes['manufacturer']?.currentValue) {
+      this.form.patchValue({
+        name: this.manufacturer?.name ?? '',
+        country: this.manufacturer?.country ?? '',
+      });
       this.errorMessage = '';
     }
   }
@@ -47,10 +52,12 @@ export class EditCategoryComponent implements OnChanges {
   }
 
   submit(): void {
-    if (!this.category?.id || this.form.invalid || this.submitting) return;
+    if (!this.manufacturer?.id || this.form.invalid || this.submitting) return;
     this.errorMessage = '';
     this.submitting = true;
-    this.categoryService.edit(String(this.category.id), this.form.getRawValue()).subscribe({
+    const value = this.form.getRawValue();
+    const payload = { ...value, country: value.country?.trim() || null };
+    this.manufacturerService.edit(String(this.manufacturer.id), payload).subscribe({
       next: () => {
         this.submitting = false;
         this.saveData.emit();

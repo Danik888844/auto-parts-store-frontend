@@ -188,6 +188,201 @@
   }
 }
 
+/* Стили контента popup (new/edit формы категорий, производителей и т.д.) */
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.popup-title {
+  margin: 0 !important;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.popup-actions-top {
+  margin-left: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.popup-submit-btn {
+  padding: 10px 20px !important;
+  background: #1e88e5 !important;
+  color: white !important;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.popup-close-btn {
+  color: #666 !important;
+
+  &:hover {
+    color: #333 !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+  }
+}
+
+.popup-content {
+  .form-container {
+    .form-group {
+      margin-bottom: 20px;
+
+      .label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .popup-input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        box-sizing: border-box;
+        color: #333;
+        background: #fff;
+
+        &::placeholder {
+          color: #999;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: #1e88e5;
+        }
+      }
+
+      .popup-error-text {
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+        color: #e74c3c;
+      }
+    }
+  }
+
+  .popup-error {
+    margin: 12px 0 0;
+    padding: 10px;
+    background: #ffebee;
+    color: #c62828;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+}
+
+/* Универсальная панель инструментов для списков (категории, продукты и т.д.) */
+.list-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  min-height: 36px;
+
+  .list-toolbar__search {
+    flex: 1;
+    min-width: 120px;
+
+    input {
+      width: 100%;
+      padding: 8px 14px;
+      border: 1px solid #d2d2d2;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      color: #333;
+      background: #f0f0f0;
+
+      &::placeholder {
+        color: #999;
+      }
+
+      &:focus {
+        outline: none;
+        background: #e8e8e8;
+      }
+    }
+  }
+
+  .list-toolbar__actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+
+    button.mat-mdc-icon-button,
+    button {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      min-height: 36px;
+      padding: 0;
+      border-radius: 8px;
+      border: none;
+      color: #fff !important;
+      cursor: pointer;
+      transition: opacity 0.2s;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+
+      &.list-toolbar__btn--add {
+        background: #1e88e5 !important;
+
+        &:hover:not([disabled]) {
+          opacity: 0.9;
+        }
+      }
+
+      &.list-toolbar__btn--edit {
+        background: #ff9800 !important;
+
+        &:hover:not([disabled]) {
+          opacity: 0.9;
+        }
+      }
+
+      &.list-toolbar__btn--delete {
+        background: #e53935 !important;
+
+        &:hover:not([disabled]) {
+          opacity: 0.9;
+        }
+      }
+
+      &[disabled] {
+        background: #bdbdbd !important;
+        color: #757575 !important;
+        cursor: not-allowed;
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
 .form-group {
   margin-bottom: 20px;
 

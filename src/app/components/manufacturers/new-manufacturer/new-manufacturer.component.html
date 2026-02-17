@@ -1,5 +1,5 @@
 <div class="popup-header">
-  <h2 class="popup-title">{{ 'NewCategory' | translate }}</h2>
+  <h2 class="popup-title">{{ 'NewManufacturer' | translate }}</h2>
   <div class="popup-actions-top">
     <button
       mat-flat-button
@@ -27,6 +27,15 @@
       @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
         <span class="popup-error-text">{{ 'Required' | translate }}</span>
       }
+    </div>
+    <div class="form-group">
+      <label class="label" for="country">{{ "Country" | translate }}</label>
+      <input
+        id="country"
+        formControlName="country"
+        class="form-control popup-input"
+        placeholder="{{ 'EnterCountry' | translate }}"
+      />
     </div>
   </form>
   @if (errorMessage) {

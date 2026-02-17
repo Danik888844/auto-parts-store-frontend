@@ -18,8 +18,6 @@ import { PaginationReturnDto } from '../../core/models/general/pagination-return
 import { CategoryDto } from '../../core/models/category/category-dto';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { PopupComponent } from '../general-components/popup/popup.component';
@@ -27,6 +25,7 @@ import { NewCategoryComponent } from './new-category/new-category.component';
 import { EditCategoryComponent } from './edit-category/edit-category.component';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-categories',
@@ -39,10 +38,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
     EditCategoryComponent,
     MatButtonModule,
     MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatTooltipModule,
     FormsModule,
+    TranslateModule,
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
@@ -59,9 +57,7 @@ export class CategoriesComponent implements OnInit {
   public domLayout: DomLayoutType = 'autoHeight';
   protected gridApi!: GridApi;
 
-  colDefs: ColDef[] = [
-    { field: 'name', headerName: 'Название', flex: 1, minWidth: 150 },
-  ];
+  colDefs: ColDef[] = [];
   gridOptions: GridOptions = {
     suppressCellFocus: true,
   };
@@ -82,12 +78,26 @@ export class CategoriesComponent implements OnInit {
   isNew = true;
   categoryForEdit: CategoryDto | null = null;
 
-  constructor(private categoryService: CategoryService) {
-    this.searchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe((term) => {
-      this.query = term;
-      this.page = 1;
-      this.getList();
-    });
+  constructor(
+    private categoryService: CategoryService,
+    private translateService: TranslateService,
+  ) {
+    this.searchSubject
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((term) => {
+        this.query = term;
+        this.page = 1;
+        this.getList();
+      });
+
+    this.colDefs = [
+      {
+        field: 'name',
+        headerName: this.translateService.instant('Name'),
+        flex: 1,
+        minWidth: 150,
+      },
+    ];
   }
 
   ngOnInit(): void {
@@ -105,9 +115,9 @@ export class CategoriesComponent implements OnInit {
         viewSize: this.pageView,
         pageNumber: this.page,
       })
-      .subscribe((response) => {
-        this.rowData = response.items;
-        this.paginationInfo = response.pagination;
+      .subscribe((res) => {
+        this.rowData = res.data.items;
+        this.paginationInfo = res.data.pagination;
       });
   }
 
@@ -188,8 +198,15 @@ export class CategoriesComponent implements OnInit {
 
   deleteCategory(): void {
     if (!this.selectedCategory?.id) return;
-    if (!confirm('Удалить категорию «' + this.selectedCategory.name + '»?')) return;
-    this.categoryService.delete(this.selectedCategory.id).subscribe({
+    if (
+      !confirm(
+        this.translateService.instant('DeleteCategory', {
+          name: this.selectedCategory.name,
+        }),
+      )
+    )
+      return;
+    this.categoryService.delete(String(this.selectedCategory.id)).subscribe({
       next: () => {
         this.selectedCategory = null;
         this.getList();
