@@ -1,0 +1,45 @@
+<div class="popup-header">
+  <h2 class="popup-title">{{ 'EditVehicleModel' | translate }}</h2>
+  <div class="popup-actions-top">
+    <button mat-flat-button class="popup-submit-btn" (click)="submit()" [disabled]="form.invalid || submitting">
+      {{ submitting ? ('Saving' | translate) : ('Save' | translate) }}
+    </button>
+    <button mat-icon-button class="popup-close-btn" (click)="onCancel()" [attr.aria-label]="'Close' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="popup-content">
+  <form [formGroup]="form" class="form-container">
+    <div class="form-group">
+      <label class="label" for="brandId">{{ "VehicleBrand" | translate }}</label>
+      <app-custom-select
+        id="brandId"
+        formControlName="brandId"
+        [items]="brands"
+        valueKey="id"
+        labelKey="name"
+        [placeholder]="'NotSelected' | translate"
+        [searchable]="true"
+        [searchPlaceholder]="'SearchByName' | translate"
+        (searchChange)="loadBrands($event)"
+      />
+      @if (form.get('brandId')?.hasError('required') && form.get('brandId')?.touched) {
+        <span class="popup-error-text">{{ 'Required' | translate }}</span>
+      }
+    </div>
+    <div class="form-group">
+      <label class="label" for="name">{{ "Name" | translate }}</label>
+      <input id="name" formControlName="name" class="form-control popup-input" placeholder="{{ 'EnterName' | translate }}" />
+      @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+        <span class="popup-error-text">{{ 'Required' | translate }}</span>
+      }
+    </div>
+  </form>
+  @if (errorMessage) {
+    <p class="popup-error">{{ errorMessage }}</p>
+  }
+</div>
+@if (submitting) {
+  <app-loading></app-loading>
+}

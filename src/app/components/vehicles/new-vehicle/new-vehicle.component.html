@@ -1,0 +1,70 @@
+<div class="popup-header">
+  <h2 class="popup-title">{{ 'NewVehicle' | translate }}</h2>
+  <div class="popup-actions-top">
+    <button mat-flat-button class="popup-submit-btn" (click)="submit()" [disabled]="form.invalid || isLoading">
+      {{ 'Create' | translate }}
+    </button>
+    <button mat-icon-button class="popup-close-btn" (click)="onCancel()" [attr.aria-label]="'Close' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="popup-content">
+  <form [formGroup]="form" class="form-container">
+    <div class="form-group">
+      <label class="label" for="modelId">{{ "VehicleModel" | translate }}</label>
+      <app-custom-select
+        id="modelId"
+        formControlName="modelId"
+        [items]="models"
+        valueKey="id"
+        labelKey="name"
+        [placeholder]="'NotSelected' | translate"
+        [searchable]="true"
+        [searchPlaceholder]="'SearchByName' | translate"
+        (searchChange)="loadModels($event)"
+      />
+      @if (form.get('modelId')?.hasError('required') && form.get('modelId')?.touched) {
+        <span class="popup-error-text">{{ 'Required' | translate }}</span>
+      }
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="label" for="yearFrom">{{ "YearFrom" | translate }}</label>
+        <input id="yearFrom" type="number" formControlName="yearFrom" class="form-control popup-input" min="1900" max="2100" />
+        @if (form.get('yearFrom')?.invalid && form.get('yearFrom')?.touched) {
+          <span class="popup-error-text">{{ 'Required' | translate }}</span>
+        }
+      </div>
+      <div class="form-group">
+        <label class="label" for="yearTo">{{ "YearTo" | translate }}</label>
+        <input id="yearTo" type="number" formControlName="yearTo" class="form-control popup-input" min="1900" max="2100" />
+        @if (form.get('yearTo')?.invalid && form.get('yearTo')?.touched) {
+          <span class="popup-error-text">{{ 'Required' | translate }}</span>
+        }
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="generation">{{ "Generation" | translate }}</label>
+      <input id="generation" formControlName="generation" class="form-control popup-input" />
+    </div>
+    <div class="form-group">
+      <label class="label" for="engine">{{ "Engine" | translate }}</label>
+      <input id="engine" formControlName="engine" class="form-control popup-input" />
+    </div>
+    <div class="form-group">
+      <label class="label" for="bodyType">{{ "BodyType" | translate }}</label>
+      <input id="bodyType" formControlName="bodyType" class="form-control popup-input" />
+    </div>
+    <div class="form-group">
+      <label class="label" for="note">{{ "Note" | translate }}</label>
+      <textarea id="note" formControlName="note" class="form-control popup-input" rows="2"></textarea>
+    </div>
+  </form>
+  @if (errorMessage) {
+    <p class="popup-error">{{ errorMessage }}</p>
+  }
+</div>
+@if (isLoading) {
+  <app-loading></app-loading>
+}
