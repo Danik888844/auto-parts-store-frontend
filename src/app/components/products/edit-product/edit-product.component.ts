@@ -69,8 +69,8 @@ export class EditProductComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.loadCategories();
-    this.loadManufacturers();
+    this.loadCategories('');
+    this.loadManufacturers('');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -91,17 +91,17 @@ export class EditProductComponent implements OnInit, OnChanges {
     }
   }
 
-  private loadCategories(): void {
+  loadCategories(searchTerm: string): void {
     this.categoryService
-      .getList({ viewSize: 500, pageNumber: 1, search: '' })
+      .getList({ viewSize: 20, pageNumber: 1, search: searchTerm ?? '' })
       .subscribe((res) => {
         this.categories = res.data?.items ?? [];
       });
   }
 
-  private loadManufacturers(): void {
+  loadManufacturers(searchTerm: string): void {
     this.manufacturerService
-      .getList({ viewSize: 500, pageNumber: 1, search: '' })
+      .getList({ viewSize: 20, pageNumber: 1, search: searchTerm ?? '' })
       .subscribe((res) => {
         this.manufacturers = res.data?.items ?? [];
       });

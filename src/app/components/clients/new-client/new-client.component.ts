@@ -67,6 +67,7 @@ export class NewClientComponent {
     this.clientService.create(payload).subscribe({
       next: () => {
         this.isLoading = false;
+        this.form.reset({ fullName: '', phone: '', email: '', notes: '' });
         this.saveData.emit();
       },
       error: () => {

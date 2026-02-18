@@ -67,6 +67,7 @@ export class NewSupplierComponent {
     this.supplierService.create(payload).subscribe({
       next: () => {
         this.isLoading = false;
+        this.form.reset({ name: '', phone: '', email: '', address: '' });
         this.saveData.emit();
       },
       error: () => {

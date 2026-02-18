@@ -56,6 +56,7 @@ export class NewManufacturerComponent {
     this.manufacturerService.create(payload).subscribe({
       next: () => {
         this.isLoading = false;
+        this.form.reset({ name: '', country: '' });
         this.saveData.emit();
       },
       error: () => {

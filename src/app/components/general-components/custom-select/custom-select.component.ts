@@ -1,10 +1,17 @@
 import {
   Component,
   Input,
+  Output,
+  EventEmitter,
   forwardRef,
   ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 /**
  * Универсальный select: массив объектов, настраиваемые поля для value и отображаемого текста.
@@ -14,6 +21,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
   selector: 'app-custom-select',
   standalone: true,
+  imports: [FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -25,7 +33,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   templateUrl: './custom-select.component.html',
   styleUrl: './custom-select.component.scss',
 })
-export class CustomSelectComponent implements ControlValueAccessor {
+export class CustomSelectComponent implements ControlValueAccessor, OnInit, OnDestroy {
   /** Массив объектов для списка (любые объекты с полями valueKey и labelKey) */
   @Input() items: unknown[] = [];
 
@@ -44,10 +52,37 @@ export class CustomSelectComponent implements ControlValueAccessor {
   /** Дополнительные CSS-классы для select (например, form-control popup-input) */
   @Input() class = 'form-control popup-input';
 
+  /** Показывать поле поиска; при вводе эмитится searchChange (для загрузки списка с сервера по поиску) */
+  @Input() searchable = false;
+
+  /** Placeholder для поля поиска */
+  @Input() searchPlaceholder = '';
+
+  /** Эмитится при вводе в поле поиска (с debounce). Подпишитесь для загрузки items с учётом search */
+  @Output() searchChange = new EventEmitter<string>();
+
   value: unknown = null;
   disabled = false;
+  searchQuery = '';
+  private searchSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
   onChange: (value: unknown) => void = () => {};
   onTouched: () => void = () => {};
+
+  ngOnInit(): void {
+    this.searchSubject
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe((term) => this.searchChange.emit(term));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onSearchInput(): void {
+    this.searchSubject.next(this.searchQuery.trim());
+  }
 
   writeValue(value: unknown): void {
     this.value = value;

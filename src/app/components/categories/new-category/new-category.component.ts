@@ -53,6 +53,7 @@ export class NewCategoryComponent {
     this.categoryService.create(this.form.getRawValue()).subscribe({
       next: () => {
         this.isLoading = false;
+        this.form.reset({ name: '' });
         this.saveData.emit();
       },
       error: () => {

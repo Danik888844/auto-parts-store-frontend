@@ -52,6 +52,9 @@
         valueKey="id"
         labelKey="name"
         [placeholder]="'NotSelected' | translate"
+        [searchable]="true"
+        [searchPlaceholder]="'SearchByName' | translate"
+        (searchChange)="loadCategories($event)"
       />
     </div>
     <div class="form-group">
@@ -63,6 +66,9 @@
         valueKey="id"
         labelKey="name"
         [placeholder]="'NotSelected' | translate"
+        [searchable]="true"
+        [searchPlaceholder]="'SearchByName' | translate"
+        (searchChange)="loadManufacturers($event)"
       />
     </div>
     <div class="form-row">

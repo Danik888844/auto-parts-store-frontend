@@ -1,3 +1,12 @@
+@if (searchable) {
+  <input
+    type="text"
+    class="custom-select-search form-control popup-input"
+    [(ngModel)]="searchQuery"
+    (ngModelChange)="onSearchInput()"
+    [placeholder]="searchPlaceholder"
+  />
+}
 <select
   [id]="id || null"
   [class]="class"
