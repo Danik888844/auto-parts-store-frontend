@@ -190,12 +190,17 @@
 
 /* Стили контента popup (new/edit формы категорий, производителей и т.д.) */
 .popup-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
   padding-bottom: 16px;
   border-bottom: 1px solid #e0e0e0;
+  background: #fff;
+  padding-top: 24px;
 }
 
 .popup-title {
@@ -276,6 +281,15 @@
         margin-top: 6px;
         font-size: 12px;
         color: #e74c3c;
+      }
+
+      &.form-group--checkbox .checkbox-label input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
+        cursor: pointer;
+        accent-color: #1e88e5;
       }
     }
   }
@@ -411,4 +425,22 @@
       border-color: #e74c3c;
     }
   }
+}
+
+.form-control {
+  background-color: #F8F8F8;
+  border-color: rgba(black, 0.1);
+  color: #333;
+  min-height: calc(1.5em + 0.75rem + calc(var(--bs-border-width) * 2));
+
+  &.short-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.mat-mdc-select-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

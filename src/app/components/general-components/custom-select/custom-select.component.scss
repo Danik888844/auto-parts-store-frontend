@@ -3,11 +3,16 @@
   width: 100%;
 }
 
-.custom-select-search {
+.custom-select-form-field {
   width: 100%;
-  margin-bottom: 0.5rem;
 }
 
-select {
-  width: 100%;
+::ng-deep .custom-select-search-option {
+  height: auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+::ng-deep .custom-select-search-option .mat-mdc-option-pseudo-checkbox {
+  display: none;
 }

@@ -1,23 +1,28 @@
-@if (searchable) {
-  <input
-    type="text"
-    class="custom-select-search form-control popup-input"
-    [(ngModel)]="searchQuery"
-    (ngModelChange)="onSearchInput()"
-    [placeholder]="searchPlaceholder"
-  />
-}
-<select
-  [id]="id || null"
-  [class]="class"
-  [value]="selectedValue"
-  [disabled]="disabled"
-  (change)="onSelectChange($event)"
->
-  @if (placeholder !== null) {
-    <option value="">{{ placeholder }}</option>
-  }
-  @for (item of items; track getTrackValue(item)) {
-    <option [value]="getValue(item)">{{ getLabel(item) }}</option>
-  }
-</select>
+<div class="input-container">
+  <mat-select
+    [attr.id]="id"
+    [value]="value"
+    [disabled]="disabled"
+    (selectionChange)="onSelectionChange($event)"
+    class="form-control popup-input"
+  >
+    @if (searchable) {
+      <mat-option disabled class="custom-select-search-option">
+        <ngx-mat-select-search
+          [formControl]="searchControl"
+          [placeholderLabel]="searchPlaceholder"
+          [noEntriesFoundLabel]="''"
+          [clearSearchInput]="true"
+          [disableScrollToActiveOnOptionsChanged]="true"
+        >
+        </ngx-mat-select-search>
+      </mat-option>
+    }
+    @if (placeholder !== null) {
+      <mat-option [value]="null">{{ placeholder }}</mat-option>
+    }
+    @for (item of items; track getTrackValue(item)) {
+      <mat-option [value]="getValue(item)">{{ getLabel(item) }}</mat-option>
+    }
+  </mat-select>
+</div>

@@ -9,19 +9,30 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule, MatSelectChange } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 /**
- * Универсальный select: массив объектов, настраиваемые поля для value и отображаемого текста.
+ * Универсальный select на базе Angular Material: mat-select + mat-option.
+ * При searchable = true внутри выпадающего списка показывается ngx-mat-select-search.
  * По умолчанию: valueKey = 'id', labelKey = 'name'.
- * Поддерживает пустой вариант (placeholder).
  */
 @Component({
   selector: 'app-custom-select',
   standalone: true,
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    NgxMatSelectSearchModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -49,13 +60,10 @@ export class CustomSelectComponent implements ControlValueAccessor, OnInit, OnDe
   /** id для связи с <label for="..."> */
   @Input() id: string | null = null;
 
-  /** Дополнительные CSS-классы для select (например, form-control popup-input) */
-  @Input() class = 'form-control popup-input';
-
-  /** Показывать поле поиска; при вводе эмитится searchChange (для загрузки списка с сервера по поиску) */
+  /** Показывать поле поиска внутри выпадающего списка (ngx-mat-select-search); при вводе эмитится searchChange */
   @Input() searchable = false;
 
-  /** Placeholder для поля поиска */
+  /** Placeholder для поля поиска внутри mat-select */
   @Input() searchPlaceholder = '';
 
   /** Эмитится при вводе в поле поиска (с debounce). Подпишитесь для загрузки items с учётом search */
@@ -63,25 +71,20 @@ export class CustomSelectComponent implements ControlValueAccessor, OnInit, OnDe
 
   value: unknown = null;
   disabled = false;
-  searchQuery = '';
-  private searchSubject = new Subject<string>();
+  searchControl = new FormControl<string>('', { nonNullable: false });
   private destroy$ = new Subject<void>();
   onChange: (value: unknown) => void = () => {};
   onTouched: () => void = () => {};
 
   ngOnInit(): void {
-    this.searchSubject
+    this.searchControl.valueChanges
       .pipe(debounceTime(300), takeUntil(this.destroy$))
-      .subscribe((term) => this.searchChange.emit(term));
+      .subscribe((term) => this.searchChange.emit(term ?? ''));
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  onSearchInput(): void {
-    this.searchSubject.next(this.searchQuery.trim());
   }
 
   writeValue(value: unknown): void {
@@ -118,25 +121,9 @@ export class CustomSelectComponent implements ControlValueAccessor, OnInit, OnDe
     return v != null ? String(v) : '';
   }
 
-  onSelectChange(event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    const selectedValue = select.value;
-    if (selectedValue === '') {
-      this.value = null;
-      this.onChange(null);
-    } else {
-      const item = this.items.find(
-        (i) => String(this.getValue(i)) === selectedValue,
-      );
-      const val = item ? this.getValue(item) : null;
-      this.value = val;
-      this.onChange(val);
-    }
+  onSelectionChange(event: MatSelectChange): void {
+    this.value = event.value ?? null;
+    this.onChange(this.value);
     this.onTouched();
-  }
-
-  get selectedValue(): string {
-    if (this.value == null) return '';
-    return String(this.value);
   }
 }
