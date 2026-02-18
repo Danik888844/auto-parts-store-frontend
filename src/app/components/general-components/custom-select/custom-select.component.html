@@ -1,0 +1,14 @@
+<select
+  [id]="id || null"
+  [class]="class"
+  [value]="selectedValue"
+  [disabled]="disabled"
+  (change)="onSelectChange($event)"
+>
+  @if (placeholder !== null) {
+    <option value="">{{ placeholder }}</option>
+  }
+  @for (item of items; track getTrackValue(item)) {
+    <option [value]="getValue(item)">{{ getLabel(item) }}</option>
+  }
+</select>

@@ -1,0 +1,27 @@
+.form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 120px;
+}
+
+.form-group--checkbox .checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-hint {
+  font-size: 0.85rem;
+  color: var(--hint-color, #666);
+  margin-top: 0.25rem;
+}
+
+.popup-input--disabled {
+  background: var(--input-disabled-bg, #f5f5f5);
+  cursor: not-allowed;
+}

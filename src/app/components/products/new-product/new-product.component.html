@@ -1,0 +1,122 @@
+<div class="popup-header">
+  <h2 class="popup-title">{{ 'NewProduct' | translate }}</h2>
+  <div class="popup-actions-top">
+    <button
+      mat-flat-button
+      class="popup-submit-btn"
+      (click)="submit()"
+      [disabled]="form.invalid || form.pending || isLoading"
+    >
+      {{ 'Create' | translate }}
+    </button>
+    <button mat-icon-button class="popup-close-btn" (click)="onCancel()" [attr.aria-label]="'Close' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="popup-content">
+  <form [formGroup]="form" class="form-container">
+    <div class="form-group">
+      <label class="label" for="sku">{{ "Sku" | translate }}</label>
+      <input
+        id="sku"
+        formControlName="sku"
+        class="form-control popup-input"
+        placeholder="{{ 'EnterSku' | translate }}"
+      />
+      @if (form.get('sku')?.hasError('required') && form.get('sku')?.touched) {
+        <span class="popup-error-text">{{ 'Required' | translate }}</span>
+      }
+      @if (form.get('sku')?.hasError('skuExists')) {
+        <span class="popup-error-text">{{ 'SkuAlreadyExists' | translate }}</span>
+      }
+    </div>
+    <div class="form-group">
+      <label class="label" for="name">{{ "Name" | translate }}</label>
+      <input
+        id="name"
+        formControlName="name"
+        class="form-control popup-input"
+        placeholder="{{ 'EnterName' | translate }}"
+      />
+      @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+        <span class="popup-error-text">{{ 'Required' | translate }}</span>
+      }
+    </div>
+    <div class="form-group">
+      <label class="label" for="categoryId">{{ "Category" | translate }}</label>
+      <app-custom-select
+        id="categoryId"
+        formControlName="categoryId"
+        [items]="categories"
+        valueKey="id"
+        labelKey="name"
+        [placeholder]="'NotSelected' | translate"
+      />
+    </div>
+    <div class="form-group">
+      <label class="label" for="manufacturerId">{{ "Manufacturer" | translate }}</label>
+      <app-custom-select
+        id="manufacturerId"
+        formControlName="manufacturerId"
+        [items]="manufacturers"
+        valueKey="id"
+        labelKey="name"
+        [placeholder]="'NotSelected' | translate"
+      />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="label" for="purchasePrice">{{ "PurchasePrice" | translate }}</label>
+        <input
+          id="purchasePrice"
+          type="number"
+          formControlName="purchasePrice"
+          class="form-control popup-input"
+          min="0"
+          step="0.01"
+        />
+        @if (form.get('purchasePrice')?.hasError('min') && form.get('purchasePrice')?.touched) {
+          <span class="popup-error-text">{{ 'MinValue' | translate }}</span>
+        }
+      </div>
+      <div class="form-group">
+        <label class="label" for="price">{{ "Price" | translate }}</label>
+        <input
+          id="price"
+          type="number"
+          formControlName="price"
+          class="form-control popup-input"
+          min="0"
+          step="0.01"
+        />
+        @if (form.get('price')?.hasError('min') && form.get('price')?.touched) {
+          <span class="popup-error-text">{{ 'MinValue' | translate }}</span>
+        }
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="description">{{ "Description" | translate }}</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control popup-input"
+        rows="3"
+        placeholder="{{ 'EnterDescription' | translate }}"
+      ></textarea>
+    </div>
+    <div class="form-group form-group--checkbox">
+      <label class="label checkbox-label">
+        <input type="checkbox" formControlName="isActive" />
+        {{ "IsActive" | translate }}
+      </label>
+    </div>
+  </form>
+  @if (errorMessage) {
+    <p class="popup-error">{{ errorMessage }}</p>
+  }
+</div>
+
+@if (isLoading) {
+  <app-loading></app-loading>
+}

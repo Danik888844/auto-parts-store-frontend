@@ -1,0 +1,59 @@
+<div>
+    <div class="list-toolbar">
+        <div class="list-toolbar__search">
+            <input
+                type="text"
+                [(ngModel)]="searchInput"
+                (ngModelChange)="onSearchInput()"
+                placeholder="{{ 'SearchByName' | translate }}"
+            />
+        </div>
+        <div class="list-toolbar__actions">
+            <button mat-icon-button class="list-toolbar__btn--add" (click)="openNewProduct()" matTooltip="{{ 'Add' | translate }}">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button class="list-toolbar__btn--edit" (click)="openEditProduct()" [disabled]="!selectedProduct" matTooltip="{{ 'Edit' | translate }}">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="list-toolbar__btn--delete" (click)="deleteProduct()" [disabled]="!selectedProduct" matTooltip="{{ 'Delete' | translate }}">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="products-grid-wrapper">
+      <app-ag-grid-list
+        [showColumnManager]="false"
+        [rowData]="rowData"
+        [colDefs]="colDefs"
+        [rowSelection]="rowSelection"
+        [gridOptions]="gridOptions"
+        [pagination]="false"
+        (onSelectionChanged)="onSelectionChanged($event)"
+        (onGridReady)="onGridReady($event)"
+        (rowDataUpdated)="onRowDataUpdated()"
+      />
+    </div>
+
+    <app-pagination
+        [paginationInfo]="paginationInfo ? getPaginationInfo(paginationInfo) : null"
+        [viewSize]="pageView"
+        [isShortPageSize]="true"
+        (pageChange)="onPageChange($event)"
+        (viewSizeChange)="onViewSizeChange($event)"
+    />
+
+    <app-popup [isOpen]="showProductModal" (closed)="closeProductPopup()">
+      @if (isNew) {
+        <app-new-product
+          (saveData)="onProductSaved()"
+          (cancel)="closeProductPopup()"
+        />
+      } @else {
+        <app-edit-product
+          [product]="productForEdit"
+          (saveData)="onProductSaved()"
+          (cancel)="closeProductPopup()"
+        />
+      }
+    </app-popup>
+</div>

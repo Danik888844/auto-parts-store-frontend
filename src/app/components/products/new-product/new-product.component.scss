@@ -1,0 +1,16 @@
+.form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 120px;
+}
+
+.form-group--checkbox .checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}

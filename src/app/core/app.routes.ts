@@ -5,6 +5,7 @@ import { PlaceholderPageComponent } from '../components/pages/placeholder-page.c
 import { authGuard } from './guards/auth.guard';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { CategoriesComponent } from '../components/categories/categories.component';
+import { ProductsComponent } from '../components/products/products.component';
 import { ManufacturersComponent } from '../components/manufacturers/manufacturers.component';
 import { SuppliersComponent } from '../components/suppliers/suppliers.component';
 import { VehicleBrandsComponent } from '../components/vehicle-brands/vehicle-brands.component';
@@ -67,7 +68,7 @@ export const routes: Routes = [
       },
       {
         path: 'products',
-        component: PlaceholderPageComponent,
+        component: ProductsComponent,
         data: { title: 'Products' },
       },
       {
