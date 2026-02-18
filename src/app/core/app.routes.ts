@@ -11,6 +11,7 @@ import { VehicleBrandsComponent } from '../components/vehicle-brands/vehicle-bra
 import { VehicleModelsComponent } from '../components/vehicle-models/vehicle-models.component';
 import { VehiclesComponent } from '../components/vehicles/vehicles.component';
 import { SystemUsersComponent } from '../components/system-users/system-users.component';
+import { ClientsComponent } from '../components/clients/clients.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -71,7 +72,7 @@ export const routes: Routes = [
       },
       {
         path: 'clients',
-        component: PlaceholderPageComponent,
+        component: ClientsComponent,
         data: { title: 'Clients' },
       },
       {

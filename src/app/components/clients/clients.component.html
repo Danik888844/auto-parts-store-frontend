@@ -1,0 +1,59 @@
+<div>
+    <div class="list-toolbar">
+        <div class="list-toolbar__search">
+            <input
+                type="text"
+                [(ngModel)]="searchInput"
+                (ngModelChange)="onSearchInput()"
+                placeholder="{{ 'SearchByFullName' | translate }}"
+            />
+        </div>
+        <div class="list-toolbar__actions">
+            <button mat-icon-button class="list-toolbar__btn--add" (click)="openNewClient()" matTooltip="{{ 'Add' | translate }}">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button class="list-toolbar__btn--edit" (click)="openEditClient()" [disabled]="!selectedClient" matTooltip="{{ 'Edit' | translate }}">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="list-toolbar__btn--delete" (click)="deleteClient()" [disabled]="!selectedClient" matTooltip="{{ 'Delete' | translate }}">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="clients-grid-wrapper">
+      <app-ag-grid-list
+        [showColumnManager]="false"
+        [rowData]="rowData"
+        [colDefs]="colDefs"
+        [rowSelection]="rowSelection"
+        [gridOptions]="gridOptions"
+        [pagination]="false"
+        (onSelectionChanged)="onSelectionChanged($event)"
+        (onGridReady)="onGridReady($event)"
+        (rowDataUpdated)="onRowDataUpdated()"
+      />
+    </div>
+
+    <app-pagination
+        [paginationInfo]="paginationInfo ? getPaginationInfo(paginationInfo) : null"
+        [viewSize]="pageView"
+        [isShortPageSize]="true"
+        (pageChange)="onPageChange($event)"
+        (viewSizeChange)="onViewSizeChange($event)"
+    />
+
+    <app-popup [isOpen]="showClientModal" (closed)="closeClientPopup()">
+      @if (isNew) {
+        <app-new-client
+          (saveData)="onClientSaved()"
+          (cancel)="closeClientPopup()"
+        />
+      } @else {
+        <app-edit-client
+          [client]="clientForEdit"
+          (saveData)="onClientSaved()"
+          (cancel)="closeClientPopup()"
+        />
+      }
+    </app-popup>
+</div>
