@@ -75,6 +75,13 @@
   "Engine": "Қозғалтқыш",
   "BodyType": "Кузов түрі",
   "Note": "Ескерту",
+  "Product": "Тауар",
+  "Vehicle": "Көлік",
+  "Comment": "Пікір",
+  "ProductCompatibilities": "Тауар үйлесімділігі",
+  "NewProductCompatibility": "Жаңа үйлесімділік",
+  "EditProductCompatibility": "Үйлесімділікті өңдеу",
+  "DeleteProductCompatibility": "«{{name}}» жойыңыз ба?",
   "AG_GRID": {
     "filterOoo": "Сүзгі...",
     "andCondition": "ЖӘНЕ",

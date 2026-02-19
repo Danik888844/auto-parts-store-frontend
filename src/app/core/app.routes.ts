@@ -13,6 +13,7 @@ import { VehicleModelsComponent } from '../components/vehicle-models/vehicle-mod
 import { VehiclesComponent } from '../components/vehicles/vehicles.component';
 import { SystemUsersComponent } from '../components/system-users/system-users.component';
 import { ClientsComponent } from '../components/clients/clients.component';
+import { ProductCompatibilitiesComponent } from '../components/product-compatibilities/product-compatibilities.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -70,6 +71,11 @@ export const routes: Routes = [
         path: 'products',
         component: ProductsComponent,
         data: { title: 'Products' },
+      },
+      {
+        path: 'product-compatibilities',
+        component: ProductCompatibilitiesComponent,
+        data: { title: 'ProductCompatibilities' },
       },
       {
         path: 'clients',

@@ -75,6 +75,13 @@
   "Engine": "Engine",
   "BodyType": "Body type",
   "Note": "Note",
+  "Product": "Product",
+  "Vehicle": "Vehicle",
+  "Comment": "Comment",
+  "ProductCompatibilities": "Product compatibility",
+  "NewProductCompatibility": "New compatibility",
+  "EditProductCompatibility": "Edit compatibility",
+  "DeleteProductCompatibility": "Delete \"{{name}}\"?",
   "AG_GRID": {
     "filterOoo": "Filter...",
     "andCondition": "AND",

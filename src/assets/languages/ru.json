@@ -75,6 +75,13 @@
   "Engine": "Двигатель",
   "BodyType": "Тип кузова",
   "Note": "Примечание",
+  "Product": "Товар",
+  "Vehicle": "Автомобиль",
+  "Comment": "Комментарий",
+  "ProductCompatibilities": "Совместимость товаров",
+  "NewProductCompatibility": "Новая совместимость",
+  "EditProductCompatibility": "Редактировать совместимость",
+  "DeleteProductCompatibility": "Удалить «{{name}}»?",
   "AG_GRID": {
     "filterOoo": "Фильтр...",
     "andCondition": "И",

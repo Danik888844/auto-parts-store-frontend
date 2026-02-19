@@ -59,6 +59,7 @@ const catalogSections: NavigationDropdownSection[] = [
     sectionTitle: 'ProductsCatalog',
     items: [
       { title: 'Products', link: '/products', id: 'nav_products' },
+      { title: 'ProductCompatibilities', link: '/product-compatibilities', id: 'nav_product_compatibilities' },
       { title: 'Categories', link: '/categories', id: 'nav_categories' },
       {
         title: 'Manufacturers',

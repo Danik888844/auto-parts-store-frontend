@@ -1,0 +1,54 @@
+<div>
+  <div class="list-toolbar">
+    <div class="list-toolbar__search">
+      <input
+        type="text"
+        [(ngModel)]="searchInput"
+        (ngModelChange)="onSearchInput()"
+        placeholder="{{ 'SearchByName' | translate }}"
+      />
+    </div>
+    <div class="list-toolbar__actions">
+      <button mat-icon-button class="list-toolbar__btn--add" (click)="openNew()" matTooltip="{{ 'Add' | translate }}">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button class="list-toolbar__btn--edit" (click)="openEdit()" [disabled]="!selectedItem" matTooltip="{{ 'Edit' | translate }}">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button class="list-toolbar__btn--delete" (click)="deleteItem()" [disabled]="!selectedItem" matTooltip="{{ 'Delete' | translate }}">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="product-compatibilities-grid-wrapper">
+    <app-ag-grid-list
+      [showColumnManager]="false"
+      [rowData]="rowData"
+      [colDefs]="colDefs"
+      [rowSelection]="rowSelection"
+      [gridOptions]="gridOptions"
+      [pagination]="false"
+      (onSelectionChanged)="onSelectionChanged($event)"
+      (onGridReady)="onGridReady($event)"
+      (rowDataUpdated)="onRowDataUpdated()"
+    />
+  </div>
+  <app-pagination
+    [paginationInfo]="paginationInfo ? getPaginationInfo(paginationInfo) : null"
+    [viewSize]="pageView"
+    [isShortPageSize]="true"
+    (pageChange)="onPageChange($event)"
+    (viewSizeChange)="onViewSizeChange($event)"
+  />
+  <app-popup [isOpen]="showModal" (closed)="closePopup()">
+    @if (isNew) {
+      <app-new-product-compatibility (saveData)="onSaved()" (cancel)="closePopup()" />
+    } @else {
+      <app-edit-product-compatibility
+        [item]="itemForEdit"
+        (saveData)="onSaved()"
+        (cancel)="closePopup()"
+      />
+    }
+  </app-popup>
+</div>
