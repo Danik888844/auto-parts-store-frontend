@@ -1,0 +1,87 @@
+<div class="detail-header">
+  <button mat-icon-button (click)="back()" matTooltip="{{ 'Back' | translate }}">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h1 class="page-title">{{ 'Sale' | translate }} #{{ sale?.id ?? '' }}</h1>
+</div>
+
+@if (loading) {
+  <app-loading></app-loading>
+} @else if (errorMessage) {
+  <p class="error-message">{{ errorMessage }}</p>
+} @else if (sale) {
+  <div class="sale-info">
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">{{ 'SoldAt' | translate }}:</span>
+        <span class="info-value">{{ sale.soldAt }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'Client' | translate }}:</span>
+        <span class="info-value">{{ sale.client?.fullName ?? '—' }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'Status' | translate }}:</span>
+        <span class="info-value">{{ statusLabel(sale.status) }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'PaymentType' | translate }}:</span>
+        <span class="info-value">{{ paymentTypeLabel(sale.paymentType) }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'Total' | translate }}:</span>
+        <span class="info-value total">{{ sale.total }}</span>
+      </div>
+    </div>
+
+    @if (canRefund()) {
+      <div class="actions">
+        <button
+          mat-flat-button
+          color="warn"
+          (click)="fullRefund()"
+          [disabled]="actionLoading"
+        >
+          {{ 'FullRefund' | translate }}
+        </button>
+      </div>
+    }
+  </div>
+
+  <h3 class="table-caption">{{ 'Items' | translate }}</h3>
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th>{{ 'Product' | translate }}</th>
+        <th>{{ 'Quantity' | translate }}</th>
+        <th>{{ 'Price' | translate }}</th>
+        <th>{{ 'LineTotal' | translate }}</th>
+        @if (canRefund()) {
+          <th></th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of sale.items; track item.id) {
+        <tr>
+          <td>{{ productName(item) }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price }}</td>
+          <td>{{ item.lineTotal }}</td>
+          @if (canRefund()) {
+            <td>
+              <button
+                mat-button
+                color="warn"
+                (click)="openPartialRefund(item)"
+                [disabled]="actionLoading"
+              >
+                {{ 'Refund' | translate }}
+              </button>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+}

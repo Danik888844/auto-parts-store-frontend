@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>{{ 'RefundItem' | translate }}</h2>
+<mat-dialog-content>
+  @if (data.productName) {
+    <p class="product-name">{{ data.productName }}</p>
+  }
+  <p class="hint">{{ 'RefundQuantityHint' | translate }}</p>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>{{ 'Quantity' | translate }}</mat-label>
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="quantity"
+      min="0"
+      [max]="data.maxQuantity"
+    />
+    <mat-hint>{{ 'RefundQuantityZeroHint' | translate }}</mat-hint>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">{{ 'Cancel' | translate }}</button>
+  <button mat-flat-button color="primary" (click)="onConfirm()">
+    {{ 'Confirm' | translate }}
+  </button>
+</mat-dialog-actions>

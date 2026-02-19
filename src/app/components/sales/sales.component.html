@@ -1,0 +1,40 @@
+<div>
+  <div class="list-toolbar">
+    <div class="list-toolbar__search">
+      <input
+        type="text"
+        [(ngModel)]="searchInput"
+        (ngModelChange)="onSearchInput()"
+        placeholder="{{ 'Search' | translate }}"
+      />
+    </div>
+    <div class="list-toolbar__actions">
+      <button mat-icon-button class="list-toolbar__btn--add" (click)="openNew()" matTooltip="{{ 'NewSale' | translate }}">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button class="list-toolbar__btn--edit" (click)="openDetail()" [disabled]="!selectedSale" matTooltip="{{ 'View' | translate }}">
+        <mat-icon>visibility</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="sales-grid-wrapper">
+    <app-ag-grid-list
+      [showColumnManager]="false"
+      [rowData]="rowData"
+      [colDefs]="colDefs"
+      [rowSelection]="rowSelection"
+      [gridOptions]="gridOptions"
+      [pagination]="false"
+      (onSelectionChanged)="onSelectionChanged($event)"
+      (onGridReady)="onGridReady($event)"
+      (rowDataUpdated)="onRowDataUpdated()"
+    />
+  </div>
+  <app-pagination
+    [paginationInfo]="paginationInfo ? getPaginationInfo(paginationInfo) : null"
+    [viewSize]="pageView"
+    [isShortPageSize]="true"
+    (pageChange)="onPageChange($event)"
+    (viewSizeChange)="onViewSizeChange($event)"
+  />
+</div>

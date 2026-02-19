@@ -14,6 +14,9 @@ import { VehiclesComponent } from '../components/vehicles/vehicles.component';
 import { SystemUsersComponent } from '../components/system-users/system-users.component';
 import { ClientsComponent } from '../components/clients/clients.component';
 import { ProductCompatibilitiesComponent } from '../components/product-compatibilities/product-compatibilities.component';
+import { SalesComponent } from '../components/sales/sales.component';
+import { NewSaleComponent } from '../components/sales/new-sale/new-sale.component';
+import { SaleDetailComponent } from '../components/sales/sale-detail/sale-detail.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -88,8 +91,18 @@ export const routes: Routes = [
         data: { title: 'Warehouse' },
       },
       {
+        path: 'sales/new',
+        component: NewSaleComponent,
+        data: { title: 'NewSale' },
+      },
+      {
+        path: 'sales/:id',
+        component: SaleDetailComponent,
+        data: { title: 'Sale' },
+      },
+      {
         path: 'sales',
-        component: PlaceholderPageComponent,
+        component: SalesComponent,
         data: { title: 'Sales' },
       },
       {

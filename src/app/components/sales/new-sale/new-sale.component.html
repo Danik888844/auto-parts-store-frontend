@@ -1,0 +1,81 @@
+<div class="page-header">
+  <h1 class="page-title">{{ 'NewSale' | translate }}</h1>
+  <div class="page-actions">
+    <button mat-button (click)="onCancel()">{{ 'Cancel' | translate }}</button>
+    <button mat-flat-button color="primary" (click)="submit()" [disabled]="form.invalid || isLoading">
+      {{ 'Create' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="form-section">
+  <form [formGroup]="form">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="label">{{ "Client" | translate }}</label>
+        <app-custom-select
+          formControlName="clientId"
+          [items]="clients"
+          valueKey="id"
+          labelKey="name"
+          [placeholder]="'NotSelected' | translate"
+          [searchable]="true"
+          [searchPlaceholder]="'SearchByName' | translate"
+          (searchChange)="loadClients($event)"
+        />
+      </div>
+      <div class="form-group">
+        <label class="label">{{ "PaymentType" | translate }}</label>
+        <select formControlName="paymentType" class="form-control popup-input">
+          @for (pt of paymentTypes; track pt.value) {
+            <option [value]="pt.value">{{ pt.labelKey | translate }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="items-section">
+      <div class="items-header">
+        <h3 class="items-title">{{ 'Items' | translate }}</h3>
+        <button type="button" mat-button (click)="addRow()">
+          <mat-icon>add</mat-icon>
+          {{ 'AddRow' | translate }}
+        </button>
+      </div>
+      <div formArrayName="items" class="items-list">
+        @for (item of items.controls; track $index; let i = $index) {
+          <div [formGroupName]="i" class="item-row">
+            <app-custom-select
+              class="item-product"
+              formControlName="productId"
+              [items]="productOptions"
+              valueKey="id"
+              labelKey="name"
+              [placeholder]="'Product' | translate"
+              [searchable]="true"
+              [searchPlaceholder]="'SearchByName' | translate"
+              (searchChange)="loadProducts($event)"
+            />
+            <input
+              type="number"
+              formControlName="quantity"
+              class="form-control quantity-input"
+              min="1"
+              placeholder="{{ 'Quantity' | translate }}"
+            />
+            <button type="button" mat-icon-button (click)="removeRow(i)" [disabled]="items.length <= 1">
+              <mat-icon>remove_circle_outline</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </form>
+  @if (errorMessage) {
+    <p class="error-message">{{ errorMessage }}</p>
+  }
+</div>
+
+@if (isLoading) {
+  <app-loading></app-loading>
+}
