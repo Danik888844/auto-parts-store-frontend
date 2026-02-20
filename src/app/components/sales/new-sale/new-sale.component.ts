@@ -15,7 +15,7 @@ import { ProductService } from '../../../core/services/product.service';
 import { PaymentType } from '../../../core/models/sale/payment-type';
 import { SaleFormDto } from '../../../core/models/sale/sale-dto';
 import { SaleItemFormDto } from '../../../core/models/sale/sale-item-dto';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../../general-components/loading/loading.component';
 import { CustomSelectComponent } from '../../general-components/custom-select/custom-select.component';
 
@@ -53,6 +53,7 @@ export class NewSaleComponent implements OnInit {
     private clientService: ClientService,
     private productService: ProductService,
     private router: Router,
+    public translate: TranslateService,
   ) {
     this.form = this.fb.group({
       clientId: [null as string | null],
@@ -97,7 +98,10 @@ export class NewSaleComponent implements OnInit {
         this.productOptions = items.map((p: any) => {
           const sku = p.Sku ?? p.sku ?? '';
           const name = p.name ?? '';
-          return { id: p.id, name: sku ? `${sku}${name ? ' - ' + name : ''}` : name };
+          return {
+            id: p.id,
+            name: sku ? `${sku}${name ? ' - ' + name : ''}` : name,
+          };
         });
       });
   }
@@ -109,6 +113,7 @@ export class NewSaleComponent implements OnInit {
   removeRow(index: number): void {
     if (this.items.length > 1) {
       this.items.removeAt(index);
+      this.form.updateValueAndValidity();
     }
   }
 
@@ -124,16 +129,18 @@ export class NewSaleComponent implements OnInit {
     const body: SaleFormDto = {
       clientId: v.clientId != null ? Number(v.clientId) : null,
       paymentType: Number(v.paymentType) as PaymentType,
-      items: this.items.controls.map((ctrl) => {
-        const row = ctrl.getRawValue();
-        return {
-          productId: Number(row.productId),
-          quantity: Number(row.quantity),
-        } as SaleItemFormDto;
-      }).filter((item) => item.productId && item.quantity > 0),
+      items: this.items.controls
+        .map((ctrl) => {
+          const row = ctrl.getRawValue();
+          return {
+            productId: Number(row.productId),
+            quantity: Number(row.quantity),
+          } as SaleItemFormDto;
+        })
+        .filter((item) => item.productId && item.quantity > 0),
     };
     if (body.items.length === 0) {
-      this.errorMessage = 'Добавьте хотя бы одну позицию';
+      this.errorMessage = this.translate.instant('AddAtLeastOnePosition');
       this.isLoading = false;
       return;
     }

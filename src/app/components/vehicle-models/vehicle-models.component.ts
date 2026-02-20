@@ -60,7 +60,9 @@ export class VehicleModelsComponent implements OnInit {
   colDefs: ColDef[] = [];
   gridOptions: GridOptions = { suppressCellFocus: true };
   rowData: any[] = [];
-  public rowSelection: RowSelectionOptions | 'single' | 'multiple' = { mode: 'singleRow' };
+  public rowSelection: RowSelectionOptions | 'single' | 'multiple' = {
+    mode: 'singleRow',
+  };
   public selectionColumnDef: SelectionColumnDef = {
     sortable: true,
     resizable: true,
@@ -76,7 +78,7 @@ export class VehicleModelsComponent implements OnInit {
 
   constructor(
     private vehicleModelService: VehicleModelService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -112,7 +114,11 @@ export class VehicleModelsComponent implements OnInit {
 
   getList(): void {
     this.vehicleModelService
-      .getList({ search: this.query, viewSize: this.pageView, pageNumber: this.page })
+      .getList({
+        search: this.query,
+        viewSize: this.pageView,
+        pageNumber: this.page,
+      })
       .subscribe((res) => {
         this.rowData = res.data.items;
         this.paginationInfo = res.data.pagination;
@@ -133,7 +139,10 @@ export class VehicleModelsComponent implements OnInit {
   getPaginationInfo(pagination: PaginationReturnDto): PaginationInfo | null {
     if (!pagination) return null;
     const startItem = (pagination.currentPage - 1) * pagination.pageSize + 1;
-    const endItem = Math.min(pagination.currentPage * pagination.pageSize, pagination.totalItems);
+    const endItem = Math.min(
+      pagination.currentPage * pagination.pageSize,
+      pagination.totalItems,
+    );
     return {
       startItem,
       endItem,
@@ -183,7 +192,14 @@ export class VehicleModelsComponent implements OnInit {
 
   deleteItem(): void {
     if (!this.selectedModel?.id) return;
-    if (!confirm(this.translateService.instant('DeleteVehicleModel', { name: this.selectedModel.name }))) return;
+    if (
+      !confirm(
+        this.translateService.instant('DeleteVehicleModel', {
+          name: this.selectedModel.name,
+        }),
+      )
+    )
+      return;
     this.vehicleModelService.delete(String(this.selectedModel.id)).subscribe({
       next: () => {
         this.selectedModel = null;

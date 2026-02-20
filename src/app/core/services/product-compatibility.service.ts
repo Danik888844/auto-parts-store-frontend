@@ -13,7 +13,7 @@ import { PaginationQueryDto } from "../models/general/pagination-query-dto";
   providedIn: 'root',
 })
 export class ProductCompatibilityService {
-  private url = environment.apiUrlServer + '/product-compatibility';
+  private url = environment.apiUrlServer + '/productCompatibility';
 
   constructor(
     private http: HttpClient,
@@ -23,18 +23,26 @@ export class ProductCompatibilityService {
   getList(
     form: PaginationQueryDto,
   ): Observable<ListWithPaginationResponseModel<ProductCompatibilityDto>> {
-    return this.http.post<ListWithPaginationResponseModel<ProductCompatibilityDto>>(
-      `${this.url}/list`,
-      form,
-    );
+    return this.http.post<
+      ListWithPaginationResponseModel<ProductCompatibilityDto>
+    >(`${this.url}/list`, form);
   }
 
   getBy(id: string): Observable<SingleResponseModel<ProductCompatibilityDto>> {
-    return this.http.get<SingleResponseModel<ProductCompatibilityDto>>(`${this.url}/${id}`);
+    return this.http.get<SingleResponseModel<ProductCompatibilityDto>>(
+      `${this.url}/${id}`,
+    );
   }
 
-  create(form: { productId: string; vehicleId: string; comment?: string | null }): Observable<SingleResponseModel<ProductCompatibilityDto>> {
-    return this.http.post<SingleResponseModel<ProductCompatibilityDto>>(this.url, form);
+  create(form: {
+    productId: string;
+    vehicleId: string;
+    comment?: string | null;
+  }): Observable<SingleResponseModel<ProductCompatibilityDto>> {
+    return this.http.post<SingleResponseModel<ProductCompatibilityDto>>(
+      this.url,
+      form,
+    );
   }
 
   edit(

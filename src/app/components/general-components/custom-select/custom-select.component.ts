@@ -7,6 +7,9 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,9 +47,14 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
   templateUrl: './custom-select.component.html',
   styleUrl: './custom-select.component.scss',
 })
-export class CustomSelectComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class CustomSelectComponent
+  implements ControlValueAccessor, OnInit, OnDestroy, OnChanges
+{
   /** Массив объектов для списка (любые объекты с полями valueKey и labelKey) */
   @Input() items: unknown[] = [];
+
+  /** Выбранный объект для отображения, когда его нет в текущем items (например, выбран через поиск) */
+  private selectedDisplayItem: unknown = null;
 
   /** Поле объекта, используемое как value опции (по умолчанию id) */
   @Input() valueKey = 'id';
@@ -76,6 +84,8 @@ export class CustomSelectComponent implements ControlValueAccessor, OnInit, OnDe
   onChange: (value: unknown) => void = () => {};
   onTouched: () => void = () => {};
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnInit(): void {
     this.searchControl.valueChanges
       .pipe(debounceTime(300), takeUntil(this.destroy$))
@@ -87,8 +97,65 @@ export class CustomSelectComponent implements ControlValueAccessor, OnInit, OnDe
     this.destroy$.complete();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['items']) {
+      this.syncSelectedDisplayItem();
+    }
+  }
+
   writeValue(value: unknown): void {
     this.value = value;
+    this.syncSelectedDisplayItem();
+    this.cdr.markForCheck();
+  }
+
+  /** Поддерживает отображение выбранного элемента, когда его нет в текущем items */
+  private syncSelectedDisplayItem(): void {
+    if (this.value == null) {
+      this.selectedDisplayItem = null;
+      return;
+    }
+    const found = this.items.find((i) =>
+      this.valuesEqual(this.getValue(i), this.value),
+    );
+    if (found != null) {
+      this.selectedDisplayItem = found;
+    }
+  }
+
+  private valuesEqual(a: unknown, b: unknown): boolean {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    return String(a) === String(b);
+  }
+
+  /** Список опций для отображения: текущие items + выбранный элемент, если его нет в списке */
+  get displayItems(): unknown[] {
+    if (this.value == null) return this.items;
+    const hasSelected = this.items.some((i) =>
+      this.valuesEqual(this.getValue(i), this.value),
+    );
+    if (hasSelected) return this.items;
+    if (
+      this.selectedDisplayItem != null &&
+      this.valuesEqual(this.getValue(this.selectedDisplayItem), this.value)
+    ) {
+      return [this.selectedDisplayItem, ...this.items];
+    }
+    return this.items;
+  }
+
+  onSelectionChange(event: MatSelectChange): void {
+    this.value = event.value ?? null;
+    const item = this.items.find((i) =>
+      this.valuesEqual(this.getValue(i), this.value),
+    );
+    if (item != null) {
+      this.selectedDisplayItem = item;
+    }
+    this.onChange(this.value);
+    this.onTouched();
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: (value: unknown) => void): void {
@@ -104,7 +171,10 @@ export class CustomSelectComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   private getItemRecord(item: unknown): Record<string, unknown> {
-    return (item != null && typeof item === 'object' ? item : {}) as Record<string, unknown>;
+    return (item != null && typeof item === 'object' ? item : {}) as Record<
+      string,
+      unknown
+    >;
   }
 
   getValue(item: unknown): unknown {
@@ -119,11 +189,5 @@ export class CustomSelectComponent implements ControlValueAccessor, OnInit, OnDe
   getTrackValue(item: unknown): string {
     const v = this.getValue(item);
     return v != null ? String(v) : '';
-  }
-
-  onSelectionChange(event: MatSelectChange): void {
-    this.value = event.value ?? null;
-    this.onChange(this.value);
-    this.onTouched();
   }
 }

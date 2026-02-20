@@ -9,9 +9,8 @@ import { decodeHtml } from '../../helpers/decode-html';
 export class NotificationService {
   constructor(
     private snackBar: MatSnackBar,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
   ) {}
-
 
   success(message?: any): void {
     this.snackBar.open(
@@ -36,5 +35,4 @@ export class NotificationService {
       { duration: 5000, panelClass: ['error-notification'] },
     );
   }
-
 }

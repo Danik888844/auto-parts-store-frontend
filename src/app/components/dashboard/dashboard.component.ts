@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   ApexAxisChartSeries,
@@ -13,16 +15,29 @@ import {
   NgApexchartsModule,
 } from 'ng-apexcharts';
 import { MatIconModule } from '@angular/material/icon';
+import { ReportService } from '../../core/services/report.service';
+import { DashboardDto } from '../../core/models/report/dashboard-dto';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [TranslateModule, NgApexchartsModule, MatIconModule],
+  imports: [CommonModule, RouterLink, TranslateModule, NgApexchartsModule, MatIconModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
-  salesCount: number = 0;
+export class DashboardComponent implements OnInit {
+  /** Данные с бэка; до загрузки — нули */
+  data: DashboardDto = {
+    salesTodayCount: 0,
+    salesTodayTotal: 0,
+    incomeForWeek: 0,
+    stockPositionsCount: 0,
+    stockTotalQuantity: 0,
+    clientsCount: 0,
+    salesByMonth: [],
+  };
+  loading = true;
+  loadError = false;
 
   blueWaveUrl = '/assets/images/svg-waves/blue-wave.svg';
   cyanWaveUrl = '/assets/images/svg-waves/cyan-wave.svg';
@@ -39,85 +54,44 @@ export class DashboardComponent {
   xaxis!: ApexXAxis;
   tooltip!: ApexTooltip;
 
-  dataSeries = [
-    [
-      {
-        date: '2014-01-01',
-        value: 20000000,
-      },
-      {
-        date: '2014-01-02',
-        value: 10379978,
-      },
-      {
-        date: '2014-01-03',
-        value: 30493749,
-      },
-      {
-        date: '2014-01-04',
-        value: 10785250,
-      },
-      {
-        date: '2014-01-05',
-        value: 33901904,
-      },
-      {
-        date: '2014-01-06',
-        value: 11576838,
-      },
-      {
-        date: '2014-01-07',
-        value: 14413854,
-      },
-      {
-        date: '2014-01-08',
-        value: 15177211,
-      },
-      {
-        date: '2014-01-09',
-        value: 16622100,
-      },
-      {
-        date: '2014-01-10',
-        value: 17381072,
-      },
-      {
-        date: '2014-01-11',
-        value: 18802310,
-      },
-      {
-        date: '2014-01-12',
-        value: 15531790,
-      },
-      {
-        date: '2014-01-13',
-        value: 15748881,
-      },
-      {
-        date: '2014-01-14',
-        value: 18706437,
-      },
-    ],
-  ];
-
-  constructor(private translateService: TranslateService) {
-    this.initChartData();
+  constructor(
+    public translateService: TranslateService,
+    private reportService: ReportService,
+  ) {
+    this.initChartOptions();
   }
 
-  public initChartData(): void {
-    const sourceData = this.dataSeries[0];
-    let ts2 = 1484418600000;
-    const dates = [];
-    for (let i = 0; i < 120; i++) {
-      ts2 = ts2 + 86400000;
-      const item = sourceData[i % sourceData.length];
-      dates.push([ts2, item.value]);
-    }
+  ngOnInit(): void {
+    this.reportService.getDashboard().subscribe({
+      next: (res) => {
+        if (res.data) {
+          this.data = res.data;
+          this.applySalesByMonthToChart(res.data.salesByMonth ?? []);
+        }
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.loadError = true;
+      },
+    });
+  }
 
+  private applySalesByMonthToChart(salesByMonth: number[][]): void {
+    const points = Array.isArray(salesByMonth) ? salesByMonth : [];
     this.series = [
       {
-        name: 'XYZ MOTORS',
-        data: dates,
+        name: this.translateService.instant('SalesPerMonth'),
+        data: points.length ? points : [[Date.now(), 0]],
+      },
+    ];
+  }
+
+  private initChartOptions(): void {
+    this.series = [
+      {
+        name: this.translateService.instant('SalesPerMonth'),
+        data: [],
       },
     ];
     this.chart = {
@@ -157,12 +131,10 @@ export class DashboardComponent {
     };
     this.yaxis = {
       labels: {
-        formatter: function (val) {
-          return (val / 1000000).toFixed(0);
-        },
+        formatter: (val: number) => (val == null ? '' : String(val)),
       },
       title: {
-        text: 'Price',
+        text: '',
       },
     };
     this.xaxis = {
@@ -171,9 +143,7 @@ export class DashboardComponent {
     this.tooltip = {
       shared: false,
       y: {
-        formatter: function (val) {
-          return (val / 1000000).toFixed(0);
-        },
+        formatter: (val: number) => (val == null ? '' : String(val)),
       },
     };
   }

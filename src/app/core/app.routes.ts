@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from '../components/login/login.component';
 import { LayoutComponent } from '../components/general-components/layout/layout.component';
 import { PlaceholderPageComponent } from '../components/pages/placeholder-page.component';
+import { WarehouseComponent } from '../components/warehouse/warehouse.component';
 import { authGuard } from './guards/auth.guard';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { CategoriesComponent } from '../components/categories/categories.component';
@@ -87,7 +88,7 @@ export const routes: Routes = [
       },
       {
         path: 'warehouse',
-        component: PlaceholderPageComponent,
+        component: WarehouseComponent,
         data: { title: 'Warehouse' },
       },
       {

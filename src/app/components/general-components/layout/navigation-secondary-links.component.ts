@@ -99,7 +99,7 @@ export class NavigationSecondaryLinksComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
     private uiLang: UiLanguageService,
   ) {
     this.currentLangCode.set(this.uiLang.getLangCode());

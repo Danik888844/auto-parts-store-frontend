@@ -64,7 +64,9 @@ export class SalesComponent implements OnInit {
     },
   };
   rowData: any[] = [];
-  public rowSelection: RowSelectionOptions | 'single' | 'multiple' = { mode: 'singleRow' };
+  public rowSelection: RowSelectionOptions | 'single' | 'multiple' = {
+    mode: 'singleRow',
+  };
   public selectionColumnDef: SelectionColumnDef = {
     sortable: true,
     resizable: true,
@@ -76,7 +78,7 @@ export class SalesComponent implements OnInit {
 
   constructor(
     private saleService: SaleService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
     private router: Router,
   ) {
     this.searchSubject
@@ -122,7 +124,8 @@ export class SalesComponent implements OnInit {
       {
         field: 'paymentType',
         headerName: this.translateService.instant('PaymentType'),
-        valueGetter: (params) => this.paymentTypeLabel(params.data?.paymentType),
+        valueGetter: (params) =>
+          this.paymentTypeLabel(params.data?.paymentType),
         flex: 1,
         minWidth: 100,
       },
@@ -151,7 +154,11 @@ export class SalesComponent implements OnInit {
 
   getList(): void {
     this.saleService
-      .getList({ search: this.query, viewSize: this.pageView, pageNumber: this.page })
+      .getList({
+        search: this.query,
+        viewSize: this.pageView,
+        pageNumber: this.page,
+      })
       .subscribe((res) => {
         this.rowData = res.data.items;
         this.paginationInfo = res.data.pagination;
@@ -172,7 +179,10 @@ export class SalesComponent implements OnInit {
   getPaginationInfo(pagination: PaginationReturnDto): PaginationInfo | null {
     if (!pagination) return null;
     const startItem = (pagination.currentPage - 1) * pagination.pageSize + 1;
-    const endItem = Math.min(pagination.currentPage * pagination.pageSize, pagination.totalItems);
+    const endItem = Math.min(
+      pagination.currentPage * pagination.pageSize,
+      pagination.totalItems,
+    );
     return {
       startItem,
       endItem,

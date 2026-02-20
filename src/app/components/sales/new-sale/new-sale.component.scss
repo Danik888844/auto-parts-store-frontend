@@ -1,22 +1,20 @@
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
+.new-sale-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  color: #333;
 }
 
 .page-title {
-  margin: 0;
+  margin: 0 0 1.5rem 0;
   font-size: 1.5rem;
-}
-
-.page-actions {
-  display: flex;
-  gap: 0.5rem;
+  font-weight: 600;
+  color: #333;
 }
 
 .form-section {
-  max-width: 800px;
+  max-width: 100%;
 }
 
 .form-row {
@@ -35,6 +33,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
+  color: #333;
 }
 
 .items-section {
@@ -51,6 +50,16 @@
 .items-title {
   margin: 0;
   font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.btn-add-row {
+  color: #1e88e5 !important;
+
+  mat-icon {
+    color: inherit;
+  }
 }
 
 .item-row {
@@ -65,14 +74,55 @@
   min-width: 0;
 }
 
+.quantity-input,
+.popup-input {
+  color: #333;
+}
+
 .quantity-input {
   width: 100px;
   padding: 8px 12px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
+  background: #fff;
+}
+
+.btn-remove-row {
+  color: #555 !important;
+
+  mat-icon {
+    color: inherit;
+  }
+
+  &:hover:not([disabled]) {
+    color: #c62828 !important;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }
 
 .error-message {
   color: #c62828;
   margin-top: 1rem;
+}
+
+// Контраст для селектов и кнопок внутри карточки (Material может наследовать тёмную тему)
+::ng-deep .new-sale-card {
+  .mat-mdc-select-value,
+  .mat-mdc-flat-button,
+  .mat-mdc-button {
+    color: #333;
+  }
+
+  .mat-mdc-select-arrow,
+  .mat-mdc-form-field-icon {
+    color: rgba(0, 0, 0, 0.54);
+  }
 }

@@ -21,7 +21,7 @@
     @if (placeholder !== null) {
       <mat-option [value]="null">{{ placeholder }}</mat-option>
     }
-    @for (item of items; track getTrackValue(item)) {
+    @for (item of displayItems; track getTrackValue(item)) {
       <mat-option [value]="getValue(item)">{{ getLabel(item) }}</mat-option>
     }
   </mat-select>

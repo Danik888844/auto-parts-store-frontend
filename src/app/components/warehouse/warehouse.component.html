@@ -1,0 +1,84 @@
+<div class="warehouse-page">
+  <div class="warehouse-header">
+    <h1 class="page-title">{{ 'Warehouse' | translate }}</h1>
+    <button
+      mat-flat-button
+      color="primary"
+      class="btn-new-movement"
+      (click)="openNewMovement()"
+    >
+      <mat-icon>add</mat-icon>
+      {{ 'NewStockMovement' | translate }}
+    </button>
+  </div>
+
+  <div class="warehouse-tabs">
+    <button
+      type="button"
+      class="tab-btn"
+      [class.active]="activeTab === 'stock'"
+      (click)="setTab('stock')"
+    >
+      {{ 'StockBalances' | translate }}
+    </button>
+    <button
+      type="button"
+      class="tab-btn"
+      [class.active]="activeTab === 'movements'"
+      (click)="setTab('movements')"
+    >
+      {{ 'MovementJournal' | translate }}
+    </button>
+  </div>
+
+  <div class="list-toolbar">
+    <div class="list-toolbar__search">
+      <input
+        type="text"
+        [(ngModel)]="searchInput"
+        (ngModelChange)="onSearchInput()"
+        [placeholder]="'SearchByName' | translate"
+      />
+    </div>
+  </div>
+
+  <div class="warehouse-grid-wrapper">
+    @if (activeTab === 'stock') {
+      <app-ag-grid-list
+        [showColumnManager]="false"
+        [rowData]="stockRowData"
+        [colDefs]="stockColDefs"
+        [gridOptions]="gridOptions"
+        [pagination]="false"
+        [rowSelection]="{ mode: 'singleRow' }"
+        (onGridReady)="onGridReadyStock($event)"
+      />
+    }
+    @if (activeTab === 'movements') {
+      <app-ag-grid-list
+        [showColumnManager]="false"
+        [rowData]="movementsRowData"
+        [colDefs]="movementsColDefs"
+        [gridOptions]="gridOptions"
+        [pagination]="false"
+        [rowSelection]="{ mode: 'singleRow' }"
+        (onGridReady)="onGridReadyMovements($event)"
+      />
+    }
+  </div>
+
+  <app-pagination
+    [paginationInfo]="getPaginationInfo(currentPagination)"
+    [viewSize]="pageView"
+    [isShortPageSize]="true"
+    (pageChange)="onPageChange($event)"
+    (viewSizeChange)="onViewSizeChange($event)"
+  />
+
+  <app-popup [isOpen]="showNewMovementModal" (closed)="closeNewMovementModal()">
+    <app-new-stock-movement
+      (saved)="onMovementCreated()"
+      (cancel)="closeNewMovementModal()"
+    />
+  </app-popup>
+</div>

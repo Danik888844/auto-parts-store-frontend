@@ -1,0 +1,93 @@
+<div class="popup-header">
+  <h2 class="popup-title">{{ 'NewStockMovement' | translate }}</h2>
+  <div class="popup-actions-top">
+    <button mat-flat-button class="popup-submit-btn" (click)="onSubmit()" [disabled]="form.invalid || isLoading">
+      {{ 'Create' | translate }}
+    </button>
+    <button mat-icon-button class="popup-close-btn" (click)="onCancel()" [attr.aria-label]="'Close' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="popup-content">
+  <form [formGroup]="form" class="form-container">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="label">{{ 'Product' | translate }}</label>
+        <app-custom-select
+          formControlName="productId"
+          [items]="productOptions"
+          valueKey="id"
+          labelKey="name"
+          [placeholder]="'NotSelected' | translate"
+          [searchable]="true"
+          [searchPlaceholder]="'SearchByName' | translate"
+          (searchChange)="loadProducts($event)"
+        />
+      </div>
+      <div class="form-group">
+        <label class="label">{{ 'StockMovementType' | translate }}</label>
+        <select formControlName="type" class="form-control popup-input">
+          @for (t of movementTypes; track t.value) {
+            <option [value]="t.value">{{ t.labelKey | translate }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="label">{{ 'Quantity' | translate }}</label>
+        <input
+          type="number"
+          formControlName="quantity"
+          class="form-control popup-input"
+          min="1"
+          placeholder="{{ 'Quantity' | translate }}"
+        />
+      </div>
+      <div class="form-group">
+        <label class="label">{{ 'DocumentNo' | translate }}</label>
+        <input
+          type="text"
+          formControlName="documentNo"
+          class="form-control popup-input"
+          [placeholder]="'DocumentNo' | translate"
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="label">{{ 'Reason' | translate }}</label>
+        <input
+          type="text"
+          formControlName="reason"
+          class="form-control popup-input"
+          [placeholder]="'Reason' | translate"
+        />
+      </div>
+      <div class="form-group">
+        <label class="label">{{ 'Supplier' | translate }}</label>
+        <app-custom-select
+          formControlName="supplierId"
+          [items]="supplierOptions"
+          valueKey="id"
+          labelKey="name"
+          [placeholder]="'NotSelected' | translate"
+          [searchable]="true"
+          [searchPlaceholder]="'SearchByName' | translate"
+          (searchChange)="loadSuppliers($event)"
+        />
+      </div>
+    </div>
+
+    @if (errorMessage) {
+      <p class="error-message">{{ errorMessage }}</p>
+    }
+  </form>
+</div>
+
+@if (isLoading) {
+  <app-loading></app-loading>
+}

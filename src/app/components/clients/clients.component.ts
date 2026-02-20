@@ -80,7 +80,7 @@ export class ClientsComponent implements OnInit {
 
   constructor(
     private clientService: ClientService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())

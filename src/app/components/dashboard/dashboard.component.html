@@ -1,41 +1,52 @@
 <div class="ml-10 mr-10">
+    @if (loading) {
+        <div class="dashboard-loading">{{ "Loading" | translate }}...</div>
+    } @else if (loadError) {
+        <div class="dashboard-error">{{ "LoadError" | translate }}</div>
+    } @else {
     <div class="d-flex gap-2 mb-2 flex-row">
         <div 
         class="stat-card"
         [style.--wave-url]="'url(' + blueWaveUrl + ')'">
-            <div class="card-header">{{"SalesToday" | translate}}</div>
+            <div class="card-header">{{ "SalesToday" | translate }}</div>
             <div class="card-body">
-                <span class="card-count">{{ salesCount }}</span> 
-                <span class="card-label">{{"orders" | translate}}</span>
+                <span class="card-count">{{ data.salesTodayCount }}</span> 
+                <span class="card-label">{{ "orders" | translate }}</span>
             </div>
+            @if (data.salesTodayTotal > 0) {
+            <div class="card-sub">{{ data.salesTodayTotal | number:'1.0-0' }} ₽</div>
+        }
         </div>
 
         <div 
         class="stat-card"
         [style.--wave-url]="'url(' + cyanWaveUrl + ')'">
-            <div class="card-header">{{"IncomePerWeek" | translate}}</div>
+            <div class="card-header">{{ "IncomePerWeek" | translate }}</div>
             <div class="card-body">
-                <span class="card-count">{{ salesCount }} ₽</span>
+                <span class="card-count">{{ data.incomeForWeek | number:'1.0-0' }} ₽</span>
             </div>
         </div>
 
         <div 
         class="stat-card"
         [style.--wave-url]="'url(' + aquaWaveUrl + ')'">
-            <div class="card-header">{{"RemainingStock" | translate}}</div>
+            <div class="card-header">{{ "RemainingStock" | translate }}</div>
             <div class="card-body">
-                <span class="card-count">{{ salesCount }}</span> 
-                <span class="card-label">{{"products" | translate}}</span>
+                <span class="card-count">{{ data.stockPositionsCount }}</span> 
+                <span class="card-label">{{ "products" | translate }}</span>
             </div>
+            @if (data.stockTotalQuantity > 0) {
+            <div class="card-sub">{{ "StockTotalQuantity" | translate }}: {{ data.stockTotalQuantity | number }}</div>
+        }
         </div>
 
         <div 
         class="stat-card"
         [style.--wave-url]="'url(' + peachWaveUrl + ')'">
-            <div class="card-header">{{"Clients" | translate}}</div>
+            <div class="card-header">{{ "Clients" | translate }}</div>
             <div class="card-body">
-                <span class="card-count">{{ salesCount }}</span> 
-                <span class="card-label">{{"contacts" | translate}}</span>
+                <span class="card-count">{{ data.clientsCount }}</span> 
+                <span class="card-label">{{ "contacts" | translate }}</span>
             </div>
         </div>
     </div>
@@ -56,52 +67,41 @@
     </div>
 
     <div class="d-flex gap-2 flex-row">
-        <div class="btn-card">
+        <a class="btn-card" routerLink="/products">
             <div class="btn-card-icon" [style.--btn-icon-bg]="'#1f6feb'">
-                <mat-icon>
-                    shopping_cart
-                </mat-icon>
+                <mat-icon>shopping_cart</mat-icon>
             </div>
-
             <div class="btn-card-title">
-                {{"ProductsCatalog" | translate}}
+                {{ "ProductsCatalog" | translate }}
             </div>
-        </div>
+        </a>
 
-        <div class="btn-card">
+        <a class="btn-card" routerLink="/warehouse">
             <div class="btn-card-icon" [style.--btn-icon-bg]="'#0d9488'">
-                <mat-icon>
-                    warehouse
-                </mat-icon>
+                <mat-icon>warehouse</mat-icon>
             </div>
-
             <div class="btn-card-title">
-                {{"Warehouse" | translate}}
+                {{ "Warehouse" | translate }}
             </div>
-        </div>
+        </a>
 
-        <div class="btn-card">
+        <a class="btn-card" routerLink="/sales/new">
             <div class="btn-card-icon" [style.--btn-icon-bg]="'#ea580c'">
-                <mat-icon>
-                    add_shopping_cart
-                </mat-icon>
+                <mat-icon>add_shopping_cart</mat-icon>
             </div>
-
             <div class="btn-card-title">
-                {{"NewOrder" | translate}}
+                {{ "NewOrder" | translate }}
             </div>
-        </div>
+        </a>
 
-        <div class="btn-card">
+        <a class="btn-card" routerLink="/reports">
             <div class="btn-card-icon" [style.--btn-icon-bg]="'#7c3aed'">
-                <mat-icon>
-                    assessment
-                </mat-icon>
+                <mat-icon>assessment</mat-icon>
             </div>
-
             <div class="btn-card-title">
-                {{"Reports" | translate}}
+                {{ "Reports" | translate }}
             </div>
-        </div>
+        </a>
     </div>
+    }
 </div>

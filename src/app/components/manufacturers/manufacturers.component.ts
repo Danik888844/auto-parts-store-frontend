@@ -80,7 +80,7 @@ export class ManufacturersComponent implements OnInit {
 
   constructor(
     private manufacturerService: ManufacturerService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -167,7 +167,9 @@ export class ManufacturersComponent implements OnInit {
 
   onSelectionChanged(event: SelectionChangedEvent): void {
     const rows = event.api.getSelectedRows();
-    this.selectedManufacturer = rows.length ? (rows[0] as ManufacturerDto) : null;
+    this.selectedManufacturer = rows.length
+      ? (rows[0] as ManufacturerDto)
+      : null;
   }
 
   onRowDataUpdated(): void {}
@@ -207,11 +209,13 @@ export class ManufacturersComponent implements OnInit {
       )
     )
       return;
-    this.manufacturerService.delete(String(this.selectedManufacturer.id)).subscribe({
-      next: () => {
-        this.selectedManufacturer = null;
-        this.getList();
-      },
-    });
+    this.manufacturerService
+      .delete(String(this.selectedManufacturer.id))
+      .subscribe({
+        next: () => {
+          this.selectedManufacturer = null;
+          this.getList();
+        },
+      });
   }
 }

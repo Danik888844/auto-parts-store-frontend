@@ -60,7 +60,9 @@ export class ProductCompatibilitiesComponent implements OnInit {
   colDefs: ColDef[] = [];
   gridOptions: GridOptions = { suppressCellFocus: true };
   rowData: any[] = [];
-  public rowSelection: RowSelectionOptions | 'single' | 'multiple' = { mode: 'singleRow' };
+  public rowSelection: RowSelectionOptions | 'single' | 'multiple' = {
+    mode: 'singleRow',
+  };
   public selectionColumnDef: SelectionColumnDef = {
     sortable: true,
     resizable: true,
@@ -76,7 +78,7 @@ export class ProductCompatibilitiesComponent implements OnInit {
 
   constructor(
     private productCompatibilityService: ProductCompatibilityService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -106,7 +108,11 @@ export class ProductCompatibilitiesComponent implements OnInit {
           const v = params.data?.vehicle;
           if (!v) return '';
           const m = (v as any).model;
-          const modelName = m ? ((m as any).brand ? `${(m as any).brand.name} ${(m as any).name}` : (m as any).name) : '';
+          const modelName = m
+            ? (m as any).brand
+              ? `${(m as any).brand.name} ${(m as any).name}`
+              : (m as any).name
+            : '';
           const yFrom = (v as any).yearFrom ?? '';
           const yTo = (v as any).yearTo ?? '';
           return modelName + (yFrom || yTo ? ` (${yFrom}-${yTo})` : '');
@@ -134,7 +140,11 @@ export class ProductCompatibilitiesComponent implements OnInit {
 
   getList(): void {
     this.productCompatibilityService
-      .getList({ search: this.query, viewSize: this.pageView, pageNumber: this.page })
+      .getList({
+        search: this.query,
+        viewSize: this.pageView,
+        pageNumber: this.page,
+      })
       .subscribe((res) => {
         this.rowData = res.data.items;
         this.paginationInfo = res.data.pagination;
@@ -155,7 +165,10 @@ export class ProductCompatibilitiesComponent implements OnInit {
   getPaginationInfo(pagination: PaginationReturnDto): PaginationInfo | null {
     if (!pagination) return null;
     const startItem = (pagination.currentPage - 1) * pagination.pageSize + 1;
-    const endItem = Math.min(pagination.currentPage * pagination.pageSize, pagination.totalItems);
+    const endItem = Math.min(
+      pagination.currentPage * pagination.pageSize,
+      pagination.totalItems,
+    );
     return {
       startItem,
       endItem,
@@ -173,7 +186,9 @@ export class ProductCompatibilitiesComponent implements OnInit {
 
   onSelectionChanged(event: SelectionChangedEvent): void {
     const rows = event.api.getSelectedRows();
-    this.selectedItem = rows.length ? (rows[0] as ProductCompatibilityDto) : null;
+    this.selectedItem = rows.length
+      ? (rows[0] as ProductCompatibilityDto)
+      : null;
   }
 
   onRowDataUpdated(): void {}
@@ -208,12 +223,21 @@ export class ProductCompatibilitiesComponent implements OnInit {
     const label = this.selectedItem.product?.name
       ? `${this.selectedItem.product.name} / ${this.selectedItem.vehicle?.model?.name ?? ''}`
       : this.selectedItem.id;
-    if (!confirm(this.translateService.instant('DeleteProductCompatibility', { name: label }))) return;
-    this.productCompatibilityService.delete(String(this.selectedItem.id)).subscribe({
-      next: () => {
-        this.selectedItem = null;
-        this.getList();
-      },
-    });
+    if (
+      !confirm(
+        this.translateService.instant('DeleteProductCompatibility', {
+          name: label,
+        }),
+      )
+    )
+      return;
+    this.productCompatibilityService
+      .delete(String(this.selectedItem.id))
+      .subscribe({
+        next: () => {
+          this.selectedItem = null;
+          this.getList();
+        },
+      });
   }
 }

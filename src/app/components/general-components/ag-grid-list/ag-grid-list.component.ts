@@ -31,13 +31,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 @Component({
   selector: 'app-ag-grid-list',
   standalone: true,
-  imports: [
-    AgGridAngular,
-    NgStyle,
-    TranslateModule,
-    NgIf,
-    MatTooltip,
-  ],
+  imports: [AgGridAngular, NgStyle, TranslateModule, NgIf, MatTooltip],
   templateUrl: './ag-grid-list.component.html',
   styleUrl: './ag-grid-list.component.scss',
 })
@@ -97,9 +91,7 @@ export class AgGridListComponent implements OnChanges {
   @Output() onFilterChanged = new EventEmitter<any>();
   @Output() onSortChanged = new EventEmitter<any>();
 
-  constructor(
-    private translateService: TranslateService,
-  ) {
+  constructor(public translateService: TranslateService) {
     this.gridOptions = {
       suppressCellFocus: true,
       localeText: getLocaleText(this.translateService),
@@ -195,5 +187,4 @@ export class AgGridListComponent implements OnChanges {
       this.gridApi?.paginationGetRowCount()
     );
   }
-
 }

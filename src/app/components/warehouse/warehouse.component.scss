@@ -1,0 +1,65 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.warehouse-page {
+  padding: 0;
+}
+
+.warehouse-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.btn-new-movement {
+  mat-icon {
+    margin-right: 0.35rem;
+    vertical-align: middle;
+  }
+}
+
+.warehouse-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tab-btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: none;
+  font-size: 0.95rem;
+  color: #666;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.2s, border-color 0.2s;
+
+  &:hover {
+    color: #333;
+  }
+
+  &.active {
+    color: #1e88e5;
+    font-weight: 500;
+    border-bottom-color: #1e88e5;
+  }
+}
+
+.warehouse-grid-wrapper {
+  width: 100%;
+  min-width: 0;
+}

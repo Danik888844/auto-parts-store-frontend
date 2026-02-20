@@ -13,7 +13,7 @@ import { PaginationQueryDto } from "../models/general/pagination-query-dto";
   providedIn: 'root',
 })
 export class VehicleBrandService {
-  private url = environment.apiUrlServer + '/vehicle-brand';
+  private url = environment.apiUrlServer + '/vehicleBrand';
 
   constructor(
     private http: HttpClient,
@@ -30,14 +30,19 @@ export class VehicleBrandService {
   }
 
   getBy(id: string): Observable<SingleResponseModel<VehicleBrandDto>> {
-    return this.http.get<SingleResponseModel<VehicleBrandDto>>(`${this.url}/${id}`);
+    return this.http.get<SingleResponseModel<VehicleBrandDto>>(
+      `${this.url}/${id}`,
+    );
   }
 
   create(form: any): Observable<SingleResponseModel<VehicleBrandDto>> {
     return this.http.post<SingleResponseModel<VehicleBrandDto>>(this.url, form);
   }
 
-  edit(id: string, form: any): Observable<SingleResponseModel<VehicleBrandDto>> {
+  edit(
+    id: string,
+    form: any,
+  ): Observable<SingleResponseModel<VehicleBrandDto>> {
     return this.http.put<SingleResponseModel<VehicleBrandDto>>(
       `${this.url}/${id}`,
       form,

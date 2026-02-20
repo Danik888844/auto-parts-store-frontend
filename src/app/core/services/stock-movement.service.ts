@@ -22,7 +22,7 @@ export interface CreateStockMovementDto {
   providedIn: 'root',
 })
 export class StockMovementService {
-  private url = environment.apiUrlServer + '/stock-movement';
+  private url = environment.apiUrlServer + '/stockMovement';
 
   constructor(
     private http: HttpClient,

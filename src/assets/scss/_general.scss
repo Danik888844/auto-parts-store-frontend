@@ -138,7 +138,24 @@
       margin-bottom: 10px;
     }
 
-    .input-container {
+    .popup-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      color: #333;
+      background: #fff;
+
+      &::placeholder {
+        color: #999;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #1e88e5;
+      }
     }
 
     input {

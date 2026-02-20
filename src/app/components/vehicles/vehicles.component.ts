@@ -60,7 +60,9 @@ export class VehiclesComponent implements OnInit {
   colDefs: ColDef[] = [];
   gridOptions: GridOptions = { suppressCellFocus: true };
   rowData: any[] = [];
-  public rowSelection: RowSelectionOptions | 'single' | 'multiple' = { mode: 'singleRow' };
+  public rowSelection: RowSelectionOptions | 'single' | 'multiple' = {
+    mode: 'singleRow',
+  };
   public selectionColumnDef: SelectionColumnDef = {
     sortable: true,
     resizable: true,
@@ -76,7 +78,7 @@ export class VehiclesComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -149,7 +151,11 @@ export class VehiclesComponent implements OnInit {
 
   getList(): void {
     this.vehicleService
-      .getList({ search: this.query, viewSize: this.pageView, pageNumber: this.page })
+      .getList({
+        search: this.query,
+        viewSize: this.pageView,
+        pageNumber: this.page,
+      })
       .subscribe((res) => {
         this.rowData = res.data.items;
         this.paginationInfo = res.data.pagination;
@@ -170,7 +176,10 @@ export class VehiclesComponent implements OnInit {
   getPaginationInfo(pagination: PaginationReturnDto): PaginationInfo | null {
     if (!pagination) return null;
     const startItem = (pagination.currentPage - 1) * pagination.pageSize + 1;
-    const endItem = Math.min(pagination.currentPage * pagination.pageSize, pagination.totalItems);
+    const endItem = Math.min(
+      pagination.currentPage * pagination.pageSize,
+      pagination.totalItems,
+    );
     return {
       startItem,
       endItem,
@@ -223,7 +232,10 @@ export class VehiclesComponent implements OnInit {
     const label = this.selectedVehicle.model?.name
       ? `${this.selectedVehicle.model.name} ${this.selectedVehicle.yearFrom || ''}-${this.selectedVehicle.yearTo || ''}`
       : this.selectedVehicle.id;
-    if (!confirm(this.translateService.instant('DeleteVehicle', { name: label }))) return;
+    if (
+      !confirm(this.translateService.instant('DeleteVehicle', { name: label }))
+    )
+      return;
     this.vehicleService.delete(String(this.selectedVehicle.id)).subscribe({
       next: () => {
         this.selectedVehicle = null;

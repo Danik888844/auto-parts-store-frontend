@@ -37,7 +37,7 @@ export class SaleDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private saleService: SaleService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
     private dialog: MatDialog,
   ) {}
 

@@ -80,7 +80,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -95,7 +95,9 @@ export class ProductsComponent implements OnInit {
         field: 'sku',
         headerName: this.translateService.instant('Sku'),
         valueGetter: (params) =>
-          (params.data && ((params.data as any).Sku ?? (params.data as any).sku)) ?? '',
+          (params.data &&
+            ((params.data as any).Sku ?? (params.data as any).sku)) ??
+          '',
         flex: 1,
         minWidth: 120,
       },
