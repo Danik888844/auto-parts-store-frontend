@@ -25,6 +25,7 @@ import {
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SAVER, getSaver } from './core/services/download/saver.provider';
 
 registerLocaleData(localeRu, 'ru');
 registerLocaleData(localeEn, 'en');
@@ -52,6 +53,7 @@ export const appConfig: ApplicationConfig = {
         suffix: `.json?v=${environment.version}`,
       }),
     }),
+    { provide: SAVER, useFactory: getSaver },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {

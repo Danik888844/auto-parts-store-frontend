@@ -168,5 +168,19 @@
   "NewOrder": "New order",
   "Loading": "Loading",
   "LoadError": "Failed to load data",
-  "StockTotalQuantity": "Total units"
+  "StockTotalQuantity": "Total units",
+  "SalesByPeriod": "Sales by period",
+  "DateFrom": "Date from",
+  "DateTo": "Date to",
+  "Apply": "Apply",
+  "ExportExcel": "Export to Excel",
+  "ReturnsMode": "Returns",
+  "ReturnsMode_Include": "Include",
+  "ReturnsMode_Exclude": "Exclude",
+  "ReturnsMode_OnlyReturns": "Only returns",
+  "GroupBy": "Group by",
+  "GroupBy_Day": "By day",
+  "GroupBy_Week": "By week",
+  "GroupBy_Month": "By month",
+  "Filter": "Filter"
 }

@@ -18,6 +18,7 @@ import { ProductCompatibilitiesComponent } from '../components/product-compatibi
 import { SalesComponent } from '../components/sales/sales.component';
 import { NewSaleComponent } from '../components/sales/new-sale/new-sale.component';
 import { SaleDetailComponent } from '../components/sales/sale-detail/sale-detail.component';
+import { ReportsComponent } from '../components/reports/reports.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -108,7 +109,7 @@ export const routes: Routes = [
       },
       {
         path: 'reports',
-        component: PlaceholderPageComponent,
+        component: ReportsComponent,
         data: { title: 'Reports' },
       },
     ],

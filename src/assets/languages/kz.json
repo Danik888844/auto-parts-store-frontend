@@ -168,5 +168,19 @@
   "NewOrder": "Жаңа заказ",
   "Loading": "Жүктелуде",
   "LoadError": "Деректерді жүктеу мүмкін болмады",
-  "StockTotalQuantity": "Барлық бірлік"
+  "StockTotalQuantity": "Барлық бірлік",
+  "SalesByPeriod": "Кезең бойынша сатылым",
+  "DateFrom": "Бастап күні",
+  "DateTo": "Дейін күні",
+  "Apply": "Қолдану",
+  "ExportExcel": "Excel-ге экспорт",
+  "ReturnsMode": "Қайтарулар",
+  "ReturnsMode_Include": "Есепке алу",
+  "ReturnsMode_Exclude": "Шығару",
+  "ReturnsMode_OnlyReturns": "Тек қайтарулар",
+  "GroupBy": "Топтау",
+  "GroupBy_Day": "Күн бойынша",
+  "GroupBy_Week": "Апта бойынша",
+  "GroupBy_Month": "Ай бойынша",
+  "Filter": "Сүзгі"
 }

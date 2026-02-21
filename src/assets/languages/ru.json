@@ -168,5 +168,19 @@
   "NewOrder": "Новый заказ",
   "Loading": "Загрузка",
   "LoadError": "Не удалось загрузить данные",
-  "StockTotalQuantity": "Всего единиц"
+  "StockTotalQuantity": "Всего единиц",
+  "SalesByPeriod": "Продажи за период",
+  "DateFrom": "Дата с",
+  "DateTo": "Дата по",
+  "Apply": "Применить",
+  "ExportExcel": "Экспорт в Excel",
+  "ReturnsMode": "Возвраты",
+  "ReturnsMode_Include": "Учитывать",
+  "ReturnsMode_Exclude": "Исключить",
+  "ReturnsMode_OnlyReturns": "Только возвраты",
+  "GroupBy": "Группировка",
+  "GroupBy_Day": "По дням",
+  "GroupBy_Week": "По неделям",
+  "GroupBy_Month": "По месяцам",
+  "Filter": "Фильтр"
 }
