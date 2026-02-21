@@ -1,0 +1,91 @@
+<div class="sales-by-period-report card-block">
+  <div class="report-header">
+    <h2 class="block-title">{{ "SalesByPeriod" | translate }}</h2>
+    <button mat-flat-button color="primary" type="button" (click)="openFilterPopup()">
+      <mat-icon>filter_list</mat-icon>
+      {{ "Filter" | translate }}
+    </button>
+  </div>
+
+  @if (loadError) {
+    <div class="reports-error">{{ loadError }}</div>
+  }
+
+  <div class="chart-block card-block">
+    <apx-chart
+      [series]="series"
+      [chart]="chart"
+      [dataLabels]="dataLabels"
+      [markers]="markers"
+      [title]="title"
+      [fill]="fill"
+      [yaxis]="yaxis"
+      [xaxis]="xaxis"
+      [tooltip]="tooltip"
+      [autoUpdateSeries]="true"
+    ></apx-chart>
+  </div>
+</div>
+
+<app-popup [isOpen]="filterPopupOpen" (closed)="closeFilterPopup()">
+  <div class="reports-filter-popup">
+    <h2 class="filter-title">{{ "SalesByPeriod" | translate }}</h2>
+    <div class="popup-content">
+      <form [formGroup]="filterForm" class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="label">{{ "DateFrom" | translate }}</label>
+            <input type="date" formControlName="dateFrom" class="form-control popup-input" />
+          </div>
+          <div class="form-group">
+            <label class="label">{{ "DateTo" | translate }}</label>
+            <input type="date" formControlName="dateTo" class="form-control popup-input" />
+          </div>
+          <div class="form-group">
+            <label class="label">{{ "User" | translate }} ID</label>
+            <input type="text" formControlName="userId" class="form-control popup-input" [placeholder]="'NotSelected' | translate" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="label">{{ "PaymentType" | translate }}</label>
+            <select formControlName="paymentType" class="form-control popup-input">
+              @for (pt of paymentTypes; track pt.labelKey) {
+                <option [value]="pt.value ?? ''">{{ pt.labelKey | translate }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="label">{{ "ReturnsMode" | translate }}</label>
+            <select formControlName="returnsMode" class="form-control popup-input">
+              @for (r of returnsModes; track r.labelKey) {
+                <option [value]="r.value">{{ r.labelKey | translate }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="label">{{ "GroupBy" | translate }}</label>
+            <select formControlName="groupBy" class="form-control popup-input">
+              @for (g of groupByOptions; track g.labelKey) {
+                <option [value]="g.value">{{ g.labelKey | translate }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="filter-actions">
+          <button mat-flat-button class="popup-submit-btn" (click)="loadChart()" [disabled]="loading">
+            {{ loading ? ("Loading" | translate) + "..." : ("Apply" | translate) }}
+          </button>
+          <button mat-stroked-button class="popup-close-btn" (click)="exportExcel()" [disabled]="exportProgress?.state === 'IN_PROGRESS'">
+            <mat-icon>download</mat-icon>
+            {{ "ExportExcel" | translate }}
+            @if (exportProgress?.state === 'IN_PROGRESS') {
+              <span class="export-progress">({{ exportProgress?.progress }}%)</span>
+            }
+          </button>
+          <button mat-button class="popup-close-btn" (click)="closeFilterPopup()">{{ "Close" | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-popup>

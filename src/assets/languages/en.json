@@ -111,6 +111,11 @@
   "Completed": "Completed",
   "Cancelled": "Cancelled",
   "Refunded": "Refunded",
+  "SaveAsDraft": "Save as draft",
+  "CompleteSale": "Complete",
+  "CompleteSaleCreate": "Complete sale",
+  "CancelDraft": "Cancel draft",
+  "ConfirmCancelDraft": "Cancel draft? Stock will not be affected.",
   "Warehouse": "Warehouse",
   "StockBalances": "Stock balances",
   "MovementJournal": "Movement journal",
@@ -182,5 +187,10 @@
   "GroupBy_Day": "By day",
   "GroupBy_Week": "By week",
   "GroupBy_Month": "By month",
-  "Filter": "Filter"
+  "Filter": "Filter",
+  "TopProducts": "Top products",
+  "OrderBy": "Order by",
+  "ByQuantity": "By quantity",
+  "ByRevenue": "By revenue",
+  "Revenue": "Revenue"
 }

@@ -23,6 +23,8 @@ export class SaleDto extends BaseDto {
 
 export class SaleFormDto
 {
+    /** true — черновик (остатки не списываются), false — сразу завершённая продажа */
+    createAsDraft?: boolean = false;
     clientId: number | null = null;
     paymentType: PaymentType = PaymentType.Cash;
     items: SaleItemFormDto[] = [];

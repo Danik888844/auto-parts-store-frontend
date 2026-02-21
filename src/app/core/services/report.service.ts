@@ -8,6 +8,10 @@ import {
   SalesByPeriodFilterParams,
   SalesByPeriodResponse,
 } from '../models/report/sales-by-period-dto';
+import {
+  TopProductsFilterParams,
+  TopProductsResponse,
+} from '../models/report/top-products-dto';
 import { SingleResponseModel } from '../models/general/single-response.model';
 import { download, Download } from './download/download';
 import { SAVER, Saver } from './download/saver.provider';
@@ -86,5 +90,33 @@ export class ReportService {
         responseType: 'blob',
       })
       .pipe(download((blob) => this.save(blob, fileName)));
+  }
+
+  /**
+   * GET api/Report/top-products — топ товаров за период (chartData + table).
+   */
+  getTopProducts(
+    params: TopProductsFilterParams,
+  ): Observable<SingleResponseModel<TopProductsResponse>> {
+    let httpParams = new HttpParams();
+    if (params.DateFrom != null && params.DateFrom !== '') {
+      httpParams = httpParams.set('DateFrom', params.DateFrom);
+    }
+    if (params.DateTo != null && params.DateTo !== '') {
+      httpParams = httpParams.set('DateTo', params.DateTo);
+    }
+    if (params.CategoryId != null && params.CategoryId !== '') {
+      httpParams = httpParams.set('CategoryId', params.CategoryId);
+    }
+    if (params.ManufacturerId != null && params.ManufacturerId !== '') {
+      httpParams = httpParams.set('ManufacturerId', params.ManufacturerId);
+    }
+    if (params.OrderBy != null) {
+      httpParams = httpParams.set('OrderBy', String(params.OrderBy));
+    }
+    return this.http.get<SingleResponseModel<TopProductsResponse>>(
+      `${this.url}/top-products`,
+      { params: httpParams },
+    );
   }
 }

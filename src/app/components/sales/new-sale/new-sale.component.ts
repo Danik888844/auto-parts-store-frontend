@@ -121,12 +121,10 @@ export class NewSaleComponent implements OnInit {
     this.router.navigate(['/sales']);
   }
 
-  submit(): void {
-    if (this.form.invalid || this.isLoading) return;
-    this.errorMessage = '';
-    this.isLoading = true;
+  private buildBody(createAsDraft: boolean): SaleFormDto | null {
     const v = this.form.getRawValue();
     const body: SaleFormDto = {
+      createAsDraft,
       clientId: v.clientId != null ? Number(v.clientId) : null,
       paymentType: Number(v.paymentType) as PaymentType,
       items: this.items.controls
@@ -141,6 +139,44 @@ export class NewSaleComponent implements OnInit {
     };
     if (body.items.length === 0) {
       this.errorMessage = this.translate.instant('AddAtLeastOnePosition');
+      return null;
+    }
+    return body;
+  }
+
+  submit(): void {
+    if (this.form.invalid || this.isLoading) return;
+    this.errorMessage = '';
+    this.isLoading = true;
+    const body = this.buildBody(false);
+    if (!body) {
+      this.isLoading = false;
+      return;
+    }
+    this.saleService.create(body).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        const id = res.data?.id;
+        if (id != null) {
+          this.router.navigate(['/sales', String(id)]);
+        } else {
+          this.saved.emit();
+          this.router.navigate(['/sales']);
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err?.error?.message ?? '';
+      },
+    });
+  }
+
+  submitAsDraft(): void {
+    if (this.form.invalid || this.isLoading) return;
+    this.errorMessage = '';
+    this.isLoading = true;
+    const body = this.buildBody(true);
+    if (!body) {
       this.isLoading = false;
       return;
     }

@@ -1,0 +1,52 @@
+.top-products-report {
+  margin-top: 1.5rem;
+}
+
+.block-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.top-products-filter {
+  margin-bottom: 1rem;
+}
+
+.filter-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.top-products-filter .form-group {
+  flex: 0 1 auto;
+  min-width: 140px;
+}
+
+.top-products-filter .form-group-btn {
+  flex: 0 0 auto;
+  margin-bottom: 0;
+}
+
+.top-products-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  min-height: 400px;
+}
+
+@media (max-width: 900px) {
+  .top-products-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.top-products-chart {
+  min-width: 0;
+}
+
+.top-products-grid {
+  min-width: 0;
+}

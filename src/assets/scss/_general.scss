@@ -203,6 +203,56 @@
       color: #636363;
     }
   }
+
+  /* те же стили для .form-group (отчёты и др. формы без .popup-content) */
+  .form-group {
+    margin-bottom: 20px;
+
+    .label {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .popup-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      color: #333;
+      background: #fff;
+
+      &::placeholder {
+        color: #999;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #1e88e5;
+      }
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+        border-color: #1e88e5;
+      }
+
+      &.error {
+        border-color: #e74c3c;
+      }
+    }
+  }
 }
 
 /* Стили контента popup (new/edit формы категорий, производителей и т.д.) */
@@ -319,6 +369,14 @@
     border-radius: 8px;
     font-size: 14px;
   }
+}
+
+/* Белая подложка для блоков (отчёты, карточки) */
+.card-block {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* Универсальная панель инструментов для списков (категории, продукты и т.д.) */

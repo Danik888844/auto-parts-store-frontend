@@ -12,6 +12,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../../general-components/loading/loading.component';
 import { RefundQuantityDialogComponent } from './refund-quantity-dialog/refund-quantity-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UiLanguageService } from '../../../core/services/helpers/ui-language.service';
+import { formatDateWithTime } from '../../../core/helpers/date-helper';
 
 @Component({
   selector: 'app-sale-detail',
@@ -39,6 +41,7 @@ export class SaleDetailComponent implements OnInit {
     private saleService: SaleService,
     public translateService: TranslateService,
     private dialog: MatDialog,
+    private langService: UiLanguageService,
   ) {}
 
   ngOnInit(): void {
@@ -81,29 +84,75 @@ export class SaleDetailComponent implements OnInit {
     return key ? this.translateService.instant(key) : String(p);
   }
 
-  productName(item: SaleItemDto): string {
-    const p = item?.product;
-    if (!p) return '';
-    const sku = (p as any).Sku ?? (p as any).sku ?? '';
-    const name = (p as any).name ?? '';
+  productName(item: any): string {
+    if (!item) return '';
+    const sku = item.productSku ?? item.sku ?? '';
+    const name = item.productName ?? item.name ?? '';
     return sku ? `${sku} ${name}`.trim() : name;
+  }
+
+  formatDate(value?: string): string {
+    return formatDateWithTime(value, this.langService.getLangCode());
+  }
+
+  canComplete(): boolean {
+    return this.sale?.status === SaleStatus.Draft;
+  }
+
+  canCancel(): boolean {
+    return this.sale?.status === SaleStatus.Draft;
   }
 
   canRefund(): boolean {
     return this.sale?.status === SaleStatus.Completed;
   }
 
+  complete(): void {
+    if (!this.sale?.id || !this.canComplete()) return;
+    this.errorMessage = '';
+    this.actionLoading = true;
+    this.saleService.complete(String(this.sale.id)).subscribe({
+      next: () => {
+        this.actionLoading = false;
+        this.loadSale(String(this.sale!.id));
+      },
+      error: (err) => {
+        this.actionLoading = false;
+        this.errorMessage = err?.error?.message ?? '';
+      },
+    });
+  }
+
+  cancel(): void {
+    if (!this.sale?.id || !this.canCancel()) return;
+    if (!confirm(this.translateService.instant('ConfirmCancelDraft'))) return;
+    this.errorMessage = '';
+    this.actionLoading = true;
+    this.saleService.cancel(String(this.sale.id)).subscribe({
+      next: () => {
+        this.actionLoading = false;
+        this.loadSale(String(this.sale!.id));
+      },
+      error: (err) => {
+        this.actionLoading = false;
+        this.errorMessage = err?.error?.message ?? '';
+      },
+    });
+  }
+
   fullRefund(): void {
     if (!this.sale?.id || !this.canRefund()) return;
     if (!confirm(this.translateService.instant('ConfirmFullRefund'))) return;
+    this.errorMessage = '';
     this.actionLoading = true;
     this.saleService.refund(String(this.sale.id)).subscribe({
       next: () => {
         this.actionLoading = false;
         this.loadSale(String(this.sale!.id));
       },
-      error: () => {
+      error: (err) => {
         this.actionLoading = false;
+        this.errorMessage = err?.error?.message ?? '';
       },
     });
   }
@@ -117,6 +166,7 @@ export class SaleDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((quantity: number | undefined) => {
       if (quantity === undefined) return;
+      this.errorMessage = '';
       this.actionLoading = true;
       const q = quantity <= 0 ? undefined : quantity;
       this.saleService
@@ -126,8 +176,9 @@ export class SaleDetailComponent implements OnInit {
             this.actionLoading = false;
             this.loadSale(String(this.sale!.id));
           },
-          error: () => {
+          error: (err) => {
             this.actionLoading = false;
+            this.errorMessage = err?.error?.message ?? '';
           },
         });
     });

@@ -111,6 +111,11 @@
   "Completed": "Завершена",
   "Cancelled": "Отменена",
   "Refunded": "Возвращена",
+  "SaveAsDraft": "Сохранить как черновик",
+  "CompleteSale": "Завершить",
+  "CompleteSaleCreate": "Провести продажу",
+  "CancelDraft": "Отменить черновик",
+  "ConfirmCancelDraft": "Отменить черновик? Остатки не затрагиваются.",
   "Warehouse": "Склад",
   "StockBalances": "Остатки",
   "MovementJournal": "Журнал движений",
@@ -182,5 +187,10 @@
   "GroupBy_Day": "По дням",
   "GroupBy_Week": "По неделям",
   "GroupBy_Month": "По месяцам",
-  "Filter": "Фильтр"
+  "Filter": "Фильтр",
+  "TopProducts": "Топ товаров",
+  "OrderBy": "Сортировка",
+  "ByQuantity": "По количеству",
+  "ByRevenue": "По выручке",
+  "Revenue": "Выручка"
 }

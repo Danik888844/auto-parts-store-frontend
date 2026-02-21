@@ -36,6 +36,20 @@ export class SaleService {
     return this.http.post<SingleResponseModel<SaleDto>>(this.url, body);
   }
 
+  complete(saleId: string): Observable<SingleResponseModel<SaleDto>> {
+    return this.http.post<SingleResponseModel<SaleDto>>(
+      `${this.url}/${saleId}/complete`,
+      {},
+    );
+  }
+
+  cancel(saleId: string): Observable<SingleResponseModel<SaleDto>> {
+    return this.http.post<SingleResponseModel<SaleDto>>(
+      `${this.url}/${saleId}/cancel`,
+      {},
+    );
+  }
+
   refund(saleId: string): Observable<SingleResponseModel<SaleDto>> {
     return this.http.post<SingleResponseModel<SaleDto>>(
       `${this.url}/${saleId}/refund`,

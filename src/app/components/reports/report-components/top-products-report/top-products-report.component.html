@@ -1,0 +1,87 @@
+<div class="top-products-report card-block">
+  <h2 class="block-title">{{ "TopProducts" | translate }}</h2>
+
+  <div>
+    <form [formGroup]="filterForm" class="form-container top-products-filter">
+      <div class="filter-inline">
+        <div class="form-group">
+          <label class="label">{{ "DateFrom" | translate }}</label>
+          <input type="date" formControlName="dateFrom" class="form-control popup-input" />
+        </div>
+        <div class="form-group">
+          <label class="label">{{ "DateTo" | translate }}</label>
+          <input type="date" formControlName="dateTo" class="form-control popup-input" />
+        </div>
+        <div class="form-group">
+          <label class="label">{{ "Category" | translate }}</label>
+          <app-custom-select
+            formControlName="categoryId"
+            [items]="categoryOptions"
+            valueKey="id"
+            labelKey="name"
+            [placeholder]="'NotSelected' | translate"
+            [searchable]="true"
+            [searchPlaceholder]="'SearchByName' | translate"
+            (searchChange)="loadCategories($event)"
+            style="width: 250px;"
+          />
+        </div>
+        <div class="form-group">
+          <label class="label">{{ "Manufacturer" | translate }}</label>
+          <app-custom-select
+            formControlName="manufacturerId"
+            [items]="manufacturerOptions"
+            valueKey="id"
+            labelKey="name"
+            [placeholder]="'NotSelected' | translate"
+            [searchable]="true"
+            [searchPlaceholder]="'SearchByName' | translate"
+            (searchChange)="loadManufacturers($event)"
+            style="width: 250px;"
+          />
+        </div>
+        <div class="form-group">
+          <label class="label">{{ "OrderBy" | translate }}</label>
+          <select formControlName="orderBy" class="form-control popup-input">
+            @for (o of orderByOptions; track o.labelKey) {
+              <option [value]="o.value">{{ o.labelKey | translate }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group form-group-btn">
+          <button mat-flat-button class="popup-submit-btn" type="button" (click)="loadReport()" [disabled]="loading">
+            {{ loading ? ("Loading" | translate) + "..." : ("Apply" | translate) }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  @if (loadError) {
+    <div class="popup-error">{{ loadError }}</div>
+  }
+
+  <div class="top-products-split">
+    <div class="top-products-chart">
+      <apx-chart
+        [series]="chartSeries"
+        [chart]="chartOptions"
+        [dataLabels]="chartDataLabels"
+        [title]="chartTitle"
+        [xaxis]="chartXaxis"
+        [plotOptions]="{ bar: { horizontal: true } }"
+        [autoUpdateSeries]="true"
+      ></apx-chart>
+    </div>
+    <div class="top-products-grid">
+      <app-ag-grid-list
+        [rowData]="tableData"
+        [colDefs]="colDefs"
+        [gridOptions]="gridOptions"
+        [pagination]="false"
+        [showColumnManager]="false"
+        [rowSelection]="{ mode: 'singleRow' }"
+      />
+    </div>
+  </div>
+</div>

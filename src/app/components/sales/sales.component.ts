@@ -26,6 +26,8 @@ import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UiLanguageService } from '../../core/services/helpers/ui-language.service';
+import { formatDate } from '../../core/helpers/date-helper';
 
 @Component({
   selector: 'app-sales',
@@ -80,6 +82,7 @@ export class SalesComponent implements OnInit {
     private saleService: SaleService,
     public translateService: TranslateService,
     private router: Router,
+    private langService: UiLanguageService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -160,7 +163,10 @@ export class SalesComponent implements OnInit {
         pageNumber: this.page,
       })
       .subscribe((res) => {
-        this.rowData = res.data.items;
+        this.rowData = res.data.items.map((item: any) => ({
+          ...item,
+          soldAt: formatDate(item.soldAt, this.langService.getLangCode()),
+        }));
         this.paginationInfo = res.data.pagination;
       });
   }

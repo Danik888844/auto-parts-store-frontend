@@ -111,6 +111,11 @@
   "Completed": "Аяқталды",
   "Cancelled": "Болдырылмады",
   "Refunded": "Қайтарылды",
+  "SaveAsDraft": "Жоба ретінде сақтау",
+  "CompleteSale": "Аяқтау",
+  "CompleteSaleCreate": "Сатылымды өткізу",
+  "CancelDraft": "Жобаны болдырмау",
+  "ConfirmCancelDraft": "Жобаны болдырмайсыз ба? Қалдықтар өзгермейді.",
   "Warehouse": "Қойма",
   "StockBalances": "Қалдықтар",
   "MovementJournal": "Қозғалыс журналы",
@@ -182,5 +187,10 @@
   "GroupBy_Day": "Күн бойынша",
   "GroupBy_Week": "Апта бойынша",
   "GroupBy_Month": "Ай бойынша",
-  "Filter": "Сүзгі"
+  "Filter": "Сүзгі",
+  "TopProducts": "Топ тауарлар",
+  "OrderBy": "Сұрыптау",
+  "ByQuantity": "Саны бойынша",
+  "ByRevenue": "Табыс бойынша",
+  "Revenue": "Табыс"
 }

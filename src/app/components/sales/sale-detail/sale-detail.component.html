@@ -1,4 +1,4 @@
-<div class="detail-header">
+<div class="card-block detail-header">
   <button mat-icon-button (click)="back()" matTooltip="{{ 'Back' | translate }}">
     <mat-icon>arrow_back</mat-icon>
   </button>
@@ -10,11 +10,14 @@
 } @else if (errorMessage) {
   <p class="error-message">{{ errorMessage }}</p>
 } @else if (sale) {
-  <div class="sale-info">
+  @if (errorMessage) {
+    <p class="error-message">{{ errorMessage }}</p>
+  }
+  <div class="card-block sale-info">
     <div class="info-grid">
       <div class="info-item">
         <span class="info-label">{{ 'SoldAt' | translate }}:</span>
-        <span class="info-value">{{ sale.soldAt }}</span>
+        <span class="info-value">{{ formatDate(sale.soldAt) }}</span>
       </div>
       <div class="info-item">
         <span class="info-label">{{ 'Client' | translate }}:</span>
@@ -34,7 +37,25 @@
       </div>
     </div>
 
-    @if (canRefund()) {
+    @if (canComplete()) {
+      <div class="actions">
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="complete()"
+          [disabled]="actionLoading"
+        >
+          {{ 'CompleteSale' | translate }}
+        </button>
+        <button
+          mat-button
+          (click)="cancel()"
+          [disabled]="actionLoading"
+        >
+          {{ 'CancelDraft' | translate }}
+        </button>
+      </div>
+    } @else if (canRefund()) {
       <div class="actions">
         <button
           mat-flat-button
@@ -48,7 +69,8 @@
     }
   </div>
 
-  <h3 class="table-caption">{{ 'Items' | translate }}</h3>
+  <div class="card-block">
+    <h3 class="table-caption">{{ 'Items' | translate }}</h3>
   <table class="items-table">
     <thead>
       <tr>
@@ -82,6 +104,7 @@
           }
         </tr>
       }
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 }
