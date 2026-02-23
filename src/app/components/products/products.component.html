@@ -9,6 +9,7 @@
             />
         </div>
         <div class="list-toolbar__actions">
+          @if (isAdmin) {
             <button mat-icon-button class="list-toolbar__btn--add" (click)="openNewProduct()" matTooltip="{{ 'Add' | translate }}">
                 <mat-icon>add</mat-icon>
             </button>
@@ -18,6 +19,7 @@
             <button mat-icon-button class="list-toolbar__btn--delete" (click)="deleteProduct()" [disabled]="!selectedProduct" matTooltip="{{ 'Delete' | translate }}">
                 <mat-icon>delete</mat-icon>
             </button>
+          }
         </div>
     </div>
     <div class="products-grid-wrapper">
@@ -28,6 +30,7 @@
         [rowSelection]="rowSelection"
         [gridOptions]="gridOptions"
         [pagination]="false"
+        [isRowSelectable]="isAdmin"
         (onSelectionChanged)="onSelectionChanged($event)"
         (onGridReady)="onGridReady($event)"
         (rowDataUpdated)="onRowDataUpdated()"

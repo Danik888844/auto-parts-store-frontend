@@ -14,6 +14,7 @@ import {
   SelectionColumnDef,
 } from 'ag-grid-community';
 import { SupplierService } from '../../core/services/supplier.service';
+import { UserService } from '../../core/services/user.service';
 import { PaginationReturnDto } from '../../core/models/general/pagination-return-dto';
 import { SupplierDto } from '../../core/models/supplier/supplier-dto';
 import { MatButtonModule } from '@angular/material/button';
@@ -78,9 +79,14 @@ export class SuppliersComponent implements OnInit {
   isNew = true;
   supplierForEdit: SupplierDto | null = null;
 
+  get isAdmin(): boolean {
+    return this.userService.isAdmin();
+  }
+
   constructor(
     private supplierService: SupplierService,
     public translateService: TranslateService,
+    private userService: UserService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())

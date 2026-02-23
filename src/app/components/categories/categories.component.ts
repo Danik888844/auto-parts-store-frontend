@@ -14,6 +14,7 @@ import {
   SelectionColumnDef,
 } from 'ag-grid-community';
 import { CategoryService } from '../../core/services/category.service';
+import { UserService } from '../../core/services/user.service';
 import { PaginationReturnDto } from '../../core/models/general/pagination-return-dto';
 import { CategoryDto } from '../../core/models/category/category-dto';
 import { MatButtonModule } from '@angular/material/button';
@@ -78,9 +79,14 @@ export class CategoriesComponent implements OnInit {
   isNew = true;
   categoryForEdit: CategoryDto | null = null;
 
+  get isAdmin(): boolean {
+    return this.userService.isAdmin();
+  }
+
   constructor(
     private categoryService: CategoryService,
     public translateService: TranslateService,
+    private userService: UserService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())

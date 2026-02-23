@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationLinkItemComponent } from './navigation-link-item.component';
 import { NavigationDropdownItemComponent } from './navigation-dropdown-item.component';
 import { CommonModule } from '@angular/common';
 import {
-  navigationItems,
+  getNavigationItems,
   NavigationItem,
   NavigationDropdownModel,
 } from '../../../core/helpers/consts/links';
+import { UserService } from '../../../core/services/user.service';
 
 function isDropdown(
   item: NavigationItem
@@ -39,7 +40,12 @@ function isDropdown(
   standalone: true,
 })
 export class NavigationLinksComponent {
-  navigationItems = navigationItems;
+  private userService = inject(UserService);
+
+  get navigationItems(): NavigationItem[] {
+    return getNavigationItems(this.userService.isAdmin());
+  }
+
   hasHighlight = false;
   isDropdown = isDropdown;
 }

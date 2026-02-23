@@ -13,6 +13,7 @@ import {
   SelectionChangedEvent,
   SelectionColumnDef,
 } from 'ag-grid-community';
+import { UserService } from '../../core/services/user.service';
 import { VehicleService } from '../../core/services/vehicle.service';
 import { PaginationReturnDto } from '../../core/models/general/pagination-return-dto';
 import { VehicleDto } from '../../core/models/vehicle/vehicle-dto';
@@ -76,9 +77,14 @@ export class VehiclesComponent implements OnInit {
   isNew = true;
   itemForEdit: VehicleDto | null = null;
 
+  get isAdmin(): boolean {
+    return this.userService.isAdmin();
+  }
+
   constructor(
     private vehicleService: VehicleService,
     public translateService: TranslateService,
+    private userService: UserService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())

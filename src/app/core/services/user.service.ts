@@ -64,6 +64,9 @@ export class UserService {
     return JSON.parse(sessionStr !== null ? sessionStr : '{}');
   };
 
+  isAdmin = (): boolean =>
+    UserService.getUser()?.user?.roles?.includes('Administrator') ?? false;
+
   static logout = () => {
     localStorage.removeItem(environment.authTokenName);
     window.location.href = '/login';

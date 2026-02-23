@@ -26,6 +26,7 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-products',
@@ -78,9 +79,14 @@ export class ProductsComponent implements OnInit {
   isNew = true;
   productForEdit: ProductDto | null = null;
 
+  get isAdmin(): boolean {
+    return this.userService.isAdmin();
+  }
+
   constructor(
     private productService: ProductService,
     public translateService: TranslateService,
+    private userService: UserService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())

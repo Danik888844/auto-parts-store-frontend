@@ -9,15 +9,17 @@
       />
     </div>
     <div class="list-toolbar__actions">
-      <button mat-icon-button class="list-toolbar__btn--add" (click)="openNew()" matTooltip="{{ 'Add' | translate }}">
-        <mat-icon>add</mat-icon>
-      </button>
-      <button mat-icon-button class="list-toolbar__btn--edit" (click)="openEdit()" [disabled]="!selectedItem" matTooltip="{{ 'Edit' | translate }}">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button class="list-toolbar__btn--delete" (click)="deleteItem()" [disabled]="!selectedItem" matTooltip="{{ 'Delete' | translate }}">
-        <mat-icon>delete</mat-icon>
-      </button>
+      @if (isAdmin) {
+        <button mat-icon-button class="list-toolbar__btn--add" (click)="openNew()" matTooltip="{{ 'Add' | translate }}">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button class="list-toolbar__btn--edit" (click)="openEdit()" [disabled]="!selectedItem" matTooltip="{{ 'Edit' | translate }}">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button class="list-toolbar__btn--delete" (click)="deleteItem()" [disabled]="!selectedItem" matTooltip="{{ 'Delete' | translate }}">
+          <mat-icon>delete</mat-icon>
+        </button>
+      }
     </div>
   </div>
   <div class="product-compatibilities-grid-wrapper">
@@ -28,6 +30,7 @@
       [rowSelection]="rowSelection"
       [gridOptions]="gridOptions"
       [pagination]="false"
+      [isRowSelectable]="isAdmin"
       (onSelectionChanged)="onSelectionChanged($event)"
       (onGridReady)="onGridReady($event)"
       (rowDataUpdated)="onRowDataUpdated()"

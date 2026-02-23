@@ -14,6 +14,7 @@ import {
   SelectionColumnDef,
 } from 'ag-grid-community';
 import { ProductCompatibilityService } from '../../core/services/product-compatibility.service';
+import { UserService } from '../../core/services/user.service';
 import { PaginationReturnDto } from '../../core/models/general/pagination-return-dto';
 import { ProductCompatibilityDto } from '../../core/models/product-compatibility/product-compatibility-dto';
 import { MatButtonModule } from '@angular/material/button';
@@ -76,9 +77,14 @@ export class ProductCompatibilitiesComponent implements OnInit {
   isNew = true;
   itemForEdit: ProductCompatibilityDto | null = null;
 
+  get isAdmin(): boolean {
+    return this.userService.isAdmin();
+  }
+
   constructor(
     private productCompatibilityService: ProductCompatibilityService,
     public translateService: TranslateService,
+    private userService: UserService,
   ) {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())

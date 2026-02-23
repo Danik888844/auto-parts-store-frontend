@@ -97,32 +97,45 @@ export const catalogRoutePaths: string[] = catalogSections.flatMap((s) =>
   s.items.map((i) => i.link)
 );
 
-export const navigationItems: NavigationItem[] = [
-  {
-    title: 'Dashboard',
-    icon: 'dashboard',
-    link: '/dashboard',
-    id: 'navbar_dashboard',
-  },
-  { title: 'Clients', icon: 'people', link: '/clients', id: 'navbar_clients' },
-  {
-    title: 'Warehouse',
-    icon: 'warehouse',
-    link: '/warehouse',
-    id: 'navbar_warehouse',
-  },
-  { title: 'Sales', icon: 'point_of_sale', link: '/sales', id: 'navbar_sales' },
-  {
-    title: 'Reports',
-    icon: 'assessment',
-    link: '/reports',
-    id: 'navbar_reports',
-  },
-  {
-    type: 'dropdown',
-    title: 'Catalog',
-    icon: 'menu_book',
-    id: 'navbar_catalog',
-    sections: catalogSections,
-  },
-];
+const USERS_SECTION_TITLE = 'Users';
+
+/** Секции каталога без раздела "Системные пользователи" для не-администраторов */
+function getCatalogSections(includeSystemUsers: boolean): NavigationDropdownSection[] {
+  if (includeSystemUsers) return catalogSections;
+  return catalogSections.filter((s) => s.sectionTitle !== USERS_SECTION_TITLE);
+}
+
+export function getNavigationItems(isAdmin: boolean): NavigationItem[] {
+  const sections = getCatalogSections(isAdmin);
+  return [
+    {
+      title: 'Dashboard',
+      icon: 'dashboard',
+      link: '/dashboard',
+      id: 'navbar_dashboard',
+    },
+    { title: 'Clients', icon: 'people', link: '/clients', id: 'navbar_clients' },
+    {
+      title: 'Warehouse',
+      icon: 'warehouse',
+      link: '/warehouse',
+      id: 'navbar_warehouse',
+    },
+    { title: 'Sales', icon: 'point_of_sale', link: '/sales', id: 'navbar_sales' },
+    {
+      title: 'Reports',
+      icon: 'assessment',
+      link: '/reports',
+      id: 'navbar_reports',
+    },
+    {
+      type: 'dropdown',
+      title: 'Catalog',
+      icon: 'menu_book',
+      id: 'navbar_catalog',
+      sections,
+    },
+  ];
+}
+
+export const navigationItems: NavigationItem[] = getNavigationItems(true);

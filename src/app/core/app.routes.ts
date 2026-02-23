@@ -4,6 +4,7 @@ import { LayoutComponent } from '../components/general-components/layout/layout.
 import { PlaceholderPageComponent } from '../components/pages/placeholder-page.component';
 import { WarehouseComponent } from '../components/warehouse/warehouse.component';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { CategoriesComponent } from '../components/categories/categories.component';
 import { ProductsComponent } from '../components/products/products.component';
@@ -71,6 +72,7 @@ export const routes: Routes = [
         path: 'system-users',
         component: SystemUsersComponent,
         data: { title: 'SystemUsers' },
+        canActivate: [adminGuard],
       },
       {
         path: 'products',
