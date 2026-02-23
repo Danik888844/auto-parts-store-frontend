@@ -1,0 +1,118 @@
+<div class="popup-header">
+  <h2 class="popup-title">{{ "NewUser" | translate }}</h2>
+  <div class="popup-actions-top">
+    <button
+      mat-flat-button
+      class="popup-submit-btn"
+      (click)="submit()"
+      [disabled]="form.invalid || isLoading"
+    >
+      {{ "Create" | translate }}
+    </button>
+    <button
+      mat-icon-button
+      class="popup-close-btn"
+      (click)="onCancel()"
+      [attr.aria-label]="'Close' | translate"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="popup-content">
+  <form [formGroup]="form" class="form-container">
+    <div class="form-group">
+      <label class="label" for="firstName">{{ "FirstName" | translate }}</label>
+      <input
+        id="firstName"
+        formControlName="firstName"
+        class="form-control popup-input"
+        placeholder="{{ 'FirstName' | translate }}"
+      />
+      @if (form.get("firstName")?.hasError("required") && form.get("firstName")?.touched) {
+        <span class="popup-error-text">{{ "Required" | translate }}</span>
+      }
+    </div>
+    <div class="form-group">
+      <label class="label" for="lastName">{{ "LastName" | translate }}</label>
+      <input
+        id="lastName"
+        formControlName="lastName"
+        class="form-control popup-input"
+        placeholder="{{ 'LastName' | translate }}"
+      />
+      @if (form.get("lastName")?.hasError("required") && form.get("lastName")?.touched) {
+        <span class="popup-error-text">{{ "Required" | translate }}</span>
+      }
+    </div>
+    <div class="form-group">
+      <label class="label" for="userName">{{ "UserName" | translate }}</label>
+      <input
+        id="userName"
+        formControlName="userName"
+        class="form-control popup-input"
+        placeholder="{{ 'UserName' | translate }}"
+      />
+      @if (form.get("userName")?.hasError("required") && form.get("userName")?.touched) {
+        <span class="popup-error-text">{{ "Required" | translate }}</span>
+      }
+    </div>
+    <div class="form-group">
+      <label class="label" for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        class="form-control popup-input"
+        placeholder="{{ 'EnterEmail' | translate }}"
+      />
+      @if (form.get("email")?.hasError("required") && form.get("email")?.touched) {
+        <span class="popup-error-text">{{ "Required" | translate }}</span>
+      }
+      @if (form.get("email")?.hasError("email") && form.get("email")?.touched) {
+        <span class="popup-error-text">{{ "InvalidEmail" | translate }}</span>
+      }
+    </div>
+    <div class="form-group">
+      <label class="label" for="password">{{ "Password" | translate }}</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        class="form-control popup-input"
+        placeholder="{{ 'Password' | translate }}"
+      />
+      @if (form.get("password")?.hasError("required") && form.get("password")?.touched) {
+        <span class="popup-error-text">{{ "Required" | translate }}</span>
+      }
+      @if (form.get("password")?.hasError("minlength") && form.get("password")?.touched) {
+        <span class="popup-error-text">{{ "PasswordMinLength" | translate }}</span>
+      }
+    </div>
+    <div class="form-group">
+      <label class="label" for="role">{{ "Role" | translate }}</label>
+      <div class="input-container">
+        <mat-select
+          id="role"
+          formControlName="role"
+          class="form-control popup-input"
+        >
+          <mat-option [value]="null">{{ "SelectRole" | translate }}</mat-option>
+          @for (r of roles; track r) {
+            <mat-option [value]="r">{{ r }}</mat-option>
+          }
+        </mat-select>
+      </div>
+      @if (form.get("role")?.hasError("required") && form.get("role")?.touched) {
+        <span class="popup-error-text">{{ "Required" | translate }}</span>
+      }
+    </div>
+  </form>
+  @if (errorMessage) {
+    <p class="popup-error">{{ errorMessage }}</p>
+  }
+</div>
+
+@if (isLoading) {
+  <app-loading></app-loading>
+}

@@ -1,0 +1,27 @@
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.popup-actions-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.popup-content {
+  .user-info {
+    margin-bottom: 1rem;
+  }
+
+  .input-container {
+    width: 100%;
+  }
+}

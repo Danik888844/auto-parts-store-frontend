@@ -1,1 +1,74 @@
-<p>system-users works!</p>
+<div class="users-container">
+  <div class="list-toolbar">
+    <div class="list-toolbar__search"></div>
+    <div class="list-toolbar__actions">
+      <button
+        mat-icon-button
+        class="list-toolbar__btn--add"
+        (click)="openNewUser()"
+        [matTooltip]="'Add' | translate"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        class="list-toolbar__btn--edit"
+        (click)="openEditUser()"
+        [disabled]="!selectedUser"
+        [matTooltip]="'Edit' | translate"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="users-grid-wrapper">
+    <app-ag-grid-list
+      [showColumnManager]="false"
+      [rowData]="rowData"
+      [colDefs]="colDefs"
+      [gridOptions]="gridOptions"
+      [pagination]="false"
+      [getContext]="contextForGrid"
+      [isRowSelectable]="true"
+      [rowSelection]="rowSelection"
+      [selectionColumnDef]="selectionColumnDef"
+      (onGridReady)="onGridReady($event)"
+      (onSelectionChanged)="onSelectionChanged($event)"
+    />
+
+    <app-pagination
+      [paginationInfo]="paginationInfo ? getPaginationInfo(paginationInfo) : null"
+      [viewSize]="pageView"
+      [isShortPageSize]="true"
+      (pageChange)="onPageChange($event)"
+      (viewSizeChange)="onViewSizeChange($event)"
+    />
+  </div>
+
+  <app-popup [isOpen]="showChangeRolePopup" (closed)="closeChangeRolePopup()">
+    <app-change-user-role-popup
+      [user]="userForRoleChange"
+      (saveData)="onRoleSaved()"
+      (cancel)="closeChangeRolePopup()"
+    />
+  </app-popup>
+
+  <app-popup [isOpen]="showUserModal" (closed)="closeUserPopup()">
+    @if (isNewUser) {
+      <app-new-user
+        (saveData)="onUserSaved()"
+        (cancel)="closeUserPopup()"
+      />
+    } @else {
+      <app-edit-user
+        [user]="userForEdit"
+        (saveData)="onUserSaved()"
+        (cancel)="closeUserPopup()"
+      />
+    }
+  </app-popup>
+</div>
+
+@if (isLoading) {
+  <app-loading></app-loading>
+}

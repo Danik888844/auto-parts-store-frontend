@@ -1,0 +1,17 @@
+.users-container {
+  padding: 1rem;
+}
+
+.users-loading,
+.users-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.users-grid-wrapper {
+  width: 100%;
+  min-height: 400px;
+  height: 500px;
+}
